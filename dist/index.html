@@ -6,9 +6,41 @@
   <link rel="stylesheet" href="style.css"/>
   <script src="https://kit.fontawesome.com/3ef1768f2a.js" crossorigin="anonymous"></script>
   <script src="main.js" defer></script>
-  <title>To-Do List App</title>
+  <title>Nogi To-Do List</title>
 </head>
 <body>
-  <div class="test"></div>
+  <header class="header">
+    <div class="title">
+      <i class="fa-solid fa-list-check"></i>
+      <h1 class="site-name">Nogi To-Do List</h1>
+    </div>
+    <button id="add-task"><i class="fa-solid fa-circle-plus"></i>Add Task</button>
+  </header>
+
+  <div class="main">
+    <nav class="nav">
+      <div class="default-projects">
+        <button class="default-project-btn" id="all-tasks-btn"><i class="fa-solid fa-rectangle-list"></i>Tasks</button>
+        <button class="default-project-btn" id="today-btn"><i class="fa-solid fa-calendar-day"></i>Today</button>
+        <button class="default-project-btn" id="week-btn"><i class="fa-solid fa-calendar-week"></i>Week</button>
+      </div>
+      <div class="user-projects">
+        <h1 class="projects-title">Projects</h1>
+        <div class="user-projects-list">
+          <p>Test Project 1</p>
+          <p>Test Project 2</p>
+          <p>Test Project 3</p>
+        </div>
+        <button class="add-project-btn"><i class="fa-solid fa-circle-plus" style="color: #001c30;"></i>Add Project</button>
+      </div>
+    </nav>
+    <div class="tasks-dashboard"></div>
+  </div>
+
+  <footer class="footer">
+    <p>Built by Nogiback</p>
+    <a href="https://github.com/Nogiback" target="_blank">
+      <i class="fab fa-github fa-spin fa-lg"></i></a>
+  </footer>
 </body>
 </html>
