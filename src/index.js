@@ -1,7 +1,8 @@
 import Task from "./Task"
 import Interface from "./Interface"
 
-document.addEventListener('DOMContentLoaded', Interface.initializeButtons);
+document.addEventListener('DOMContentLoaded', Interface.initButtons);
+document.addEventListener('DOMContentLoaded', Interface.initModals);
 
 const task = new Task("Test", "Test Description", "22/09/2023", "High");
 

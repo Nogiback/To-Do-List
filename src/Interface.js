@@ -12,7 +12,7 @@ class Interface {
       //initialize task buttons
     //open main project tasks list
 
-  static initializeButtons() {
+  static initButtons() {
     const addTaskButton = document.getElementById('add-task-btn');
     const closeAddTaskButton = document.getElementById('close-task-modal-btn');
     //const addProjectButton = document.getElementById('add-project-btn');
@@ -20,6 +20,19 @@ class Interface {
     addTaskButton.addEventListener('click', Interface.openAddTaskModal);
     closeAddTaskButton.addEventListener('click', Interface.closeAddTaskModal);
     //addProjectButton.addEventListener('click', Interface.openAddProjectModal);
+  }
+
+  static initModals() {
+    const addTaskModal = document.getElementById('task-modal');
+    const overlay = document.getElementById('overlay');
+    //add project modals
+
+    addTaskModal.onclose = () => {
+      addTaskModal.close();
+      overlay.style.display = 'none';
+    }
+
+    //project modal onclose
   }
 
   static openAddTaskModal() {
@@ -32,12 +45,7 @@ class Interface {
 
   static closeAddTaskModal() {
     const addTaskModal = document.getElementById('task-modal');
-    const overlay = document.getElementById('overlay');
-    
     addTaskModal.close();
-    addTaskModal.onclose = () => {
-      overlay.style.display = 'none';
-    }
   }
 
   // static openAddProjectModal() {
