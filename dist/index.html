@@ -14,7 +14,7 @@
       <i class="fa-solid fa-list-check"></i>
       <h1 class="site-name">Nogi To-Do List</h1>
     </div>
-    <button id="add-task"><i class="fa-solid fa-circle-plus"></i>Add Task</button>
+    <button id="add-task-btn"><i class="fa-solid fa-circle-plus"></i>Add Task</button>
   </header>
 
   <div class="main">
@@ -25,7 +25,7 @@
         <button class="default-project-btn" id="week-btn"><i class="fa-solid fa-calendar-week"></i>Week</button>
       </div>
       <div class="user-projects">
-        <h1 class="projects-title">Projects</h1>
+        <h1>Projects</h1>
         <div class="user-projects-list">
           <button>Test Project 1</button>
           <button>Test Project 2</button>
@@ -35,12 +35,35 @@
       </div>
     </nav>
     <div class="tasks-dashboard">
-      <h1>TEST PROJECT 1</h1>
-      <div>Task 1</div>
-      <div>Task 2</div>
-      <div>Task 3</div>
+      <h1 class="project-title"></h1>
+      <div class="tasks"></div>
     </div>
   </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <dialog id="task-modal">
+    <div class="task-modal-header">
+      <h1>Create New Task</h1>
+      <button id="close-task-modal-btn"><i class="fa-solid fa-x"></i></button>
+    </div>
+    <form action="/" method="get" id="task-form">
+      <label for="task-title">Task Title</label>
+      <input type="text" id="task-title" name="task-title" placeholder="Task Title" maxlength="30" required/>
+      <label for="task-description">Task Description</label>
+      <textarea id="task-description" name="task-description" placeholder="Enter task description here..."></textarea>
+      <label for="task-date">Task Due Date</label>
+      <input type="date" id="task-date" name="task-date" required/>
+      <label for="task-priority">Task Priority Level</label>
+      <select name="task-priority" id="task-priority">
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+     </select>
+     <button id="submit-btn" value="default">Add Task</button>
+    </form>
+  </dialog>
+
 
   <footer class="footer">
     <p>Built by Nogiback</p>

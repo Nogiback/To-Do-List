@@ -77,7 +77,7 @@ header {
   font-size: 2rem;
 }
 
-#add-task {
+#add-task-btn {
   color: var(--lightblue);
   padding: 0.6rem;
   font-size: 1rem;
@@ -88,13 +88,13 @@ header {
   min-width: 120px;
 }
 
-#add-task:hover {
+#add-task-btn:hover {
   color: var(--darkblue);
   background: var(--lightblue);
   transition: 0.3s ease;
 }
 
-#add-task:active {
+#add-task-btn:active {
   top: 2px;
 }
 
@@ -135,7 +135,7 @@ header {
   gap: 5px;
 }
 
-.projects-title {
+.user-projects h1 {
   font-size: 1.3rem;
   font-weight: 700;
   margin-top: 10px;
@@ -172,6 +172,32 @@ header {
   font-size: 2.5rem;
   font-weight: 700;
   min-width: max-content;
+}
+
+/*---------------------------------------- MODALS ---------------------------------------*/
+
+#task-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 400px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  border-radius: 10px;
+}
+
+.overlay {
+  display: none;
+  backdrop-filter: blur(2px);
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  background-color:rgba(0,0,0,0.3);
+  z-index: 1000;
 }
 
 /*---------------------------------------- FOOTER ---------------------------------------*/
