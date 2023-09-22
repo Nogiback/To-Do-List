@@ -150,8 +150,25 @@ header {
   border-radius: 8px;
 }
 
+.user-projects-list button {
+  padding: 4px
+}
+
 .nav button:hover {
   background-color: var(--lightbluehover);
+}
+
+.tasks-dashboard {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.tasks-dashboard h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
 }
 
 /*---------------------------------------- FOOTER ---------------------------------------*/
