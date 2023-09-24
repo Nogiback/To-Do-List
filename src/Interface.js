@@ -15,30 +15,34 @@ class Interface {
   static initButtons() {
     const addTaskButton = document.getElementById('add-task-btn');
     const closeAddTaskButton = document.getElementById('close-task-modal-btn');
-    //const addProjectButton = document.getElementById('add-project-btn');
+    const addProjectButton = document.getElementById('add-project-btn');
+    const closeAddProjectButton = document.getElementById('close-project-modal-btn');
 
     addTaskButton.addEventListener('click', Interface.openAddTaskModal);
     closeAddTaskButton.addEventListener('click', Interface.closeAddTaskModal);
-    //addProjectButton.addEventListener('click', Interface.openAddProjectModal);
+    addProjectButton.addEventListener('click', Interface.openAddProjectModal);
+    closeAddProjectButton.addEventListener('click', Interface.closeAddProjectModal);
   }
 
   static initModals() {
     const addTaskModal = document.getElementById('task-modal');
+    const addProjectModal = document.getElementById('project-modal');
     const overlay = document.getElementById('overlay');
-    //add project modals
-
+  
     addTaskModal.onclose = () => {
       addTaskModal.close();
       overlay.style.display = 'none';
     }
 
-    //project modal onclose
+    addProjectModal.onclose = () => {
+      addProjectModal.close();
+      overlay.style.display = 'none';
+    }
   }
 
   static openAddTaskModal() {
     const addTaskModal = document.getElementById('task-modal');
     const overlay = document.getElementById('overlay');
-    //note: close all other modals
     addTaskModal.showModal();
     overlay.style.display = 'block';
   }
@@ -48,9 +52,17 @@ class Interface {
     addTaskModal.close();
   }
 
-  // static openAddProjectModal() {
-  //   //note: add logic later
-  // }
+  static openAddProjectModal() {
+    const addProjectModal = document.getElementById('project-modal');
+    const overlay = document.getElementById('overlay');
+    addProjectModal.showModal();
+    overlay.style.display = 'block';
+  }
+
+  static closeAddProjectModal() {
+    const addProjectModal = document.getElementById('project-modal');
+    addProjectModal.close();
+  }
 
 }
 

@@ -1,4 +1,6 @@
 import Task from "./Task"
+import Project from "./Project";
+import ToDoList from "./ToDoList";
 import Interface from "./Interface"
 
 document.addEventListener('DOMContentLoaded', Interface.initButtons);
