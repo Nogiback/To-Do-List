@@ -31,7 +31,7 @@
           <button>Test Project 2</button>
           <button>Test Project 3</button>
         </div>
-        <button class="add-project-btn"><i class="fa-solid fa-circle-plus" style="color: #001c30;"></i>Add Project</button>
+        <button id="add-project-btn"><i class="fa-solid fa-circle-plus" style="color: #001c30;"></i>Add Project</button>
       </div>
     </nav>
     <div class="tasks-dashboard">
@@ -48,25 +48,37 @@
       <button id="close-task-modal-btn"><i class="fa-solid fa-x"></i></button>
     </div>
     <form action="/" method="get" id="task-form">
-      <label for="task-title">Task Title</label>
+      <label for="task-title">Task Title:</label>
       <input type="text" id="task-title" name="task-title" placeholder="Task Title" maxlength="30" required/>
-      <label for="task-description">Task Description</label>
-      <textarea id="task-description" name="task-description" placeholder="Enter task description here..."></textarea>
-      <label for="task-date">Task Due Date</label>
+      <label for="task-description">Task Description:</label>
+      <textarea id="task-description" name="task-description" rows="6" placeholder="Enter task description here..."></textarea>
+      <label for="task-date">Task Due Date:</label>
       <input type="date" id="task-date" name="task-date" required/>
-      <label for="task-priority">Task Priority Level</label>
+      <label for="task-priority">Task Priority Level:</label>
       <select name="task-priority" id="task-priority">
         <option value="Low">Low</option>
         <option value="Medium">Medium</option>
         <option value="High">High</option>
       </select>
+      <label for="project-select">Project:</label>
       <select name="task-project" id="task-project">
         <!-- Project Options -->
+        <option value="Test Project">Test Project</option>
       </select>
-      <button id="submit-btn" value="default">Add Task</button>
+      <button id="task-submit-btn" value="default">Add Task</button>
     </form>
   </dialog>
 
+  <dialog id="project-modal">
+    <div class="project-modal-header">
+      <h1>Create New Project</h1>
+      <button id="close-project-modal-btn"><i class="fa-solid fa-x"></i></button>
+    </div>
+    <form action="/" method="get" id="project-form">
+      <input type="text" id="project-title-input" name="project-title-input" placeholder="Project Title" maxlength="20" required/>
+      <button id="project-submit-btn" value="default">Add Project</button>
+    </form>
+  </dialog>
 
   <footer class="footer">
     <p>Built by Nogiback</p>

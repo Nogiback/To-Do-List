@@ -106,8 +106,8 @@ header {
 }
 
 .nav {
-  min-width: 200px;
-  padding: 40px;
+  min-width: 210px;
+  padding: 30px;
   background-color: var(--lightblue);
   display: flex;
   flex-direction: column;
@@ -147,7 +147,7 @@ header {
 
 .nav button {
   text-align: left;
-  width: 220px;
+  width: 210px;
   padding: 6px;
   border-radius: 8px;
 }
@@ -176,16 +176,94 @@ header {
 
 /*---------------------------------------- MODALS ---------------------------------------*/
 
-#task-modal {
+#task-modal,
+#project-modal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 600px;
-  height: 400px;
   padding: 2rem;
   box-shadow: var(--shadow);
   border-radius: 10px;
+  background-color: var(--lightblue);
+  color: var(--darkblue);
+  transition: all 0.3 ease-in-out;
+}
+
+#task-modal {
+  width: 600px;
+  height: 400px;
+}
+
+#project-modal {
+  width: 500px;
+  height: 200px;
+}
+
+.fa-x {
+  padding: 0;
+}
+
+.fa-x:hover {
+  color: red;
+  transition: 0.3s ease-in-out;
+}
+
+.task-modal-header,
+.project-modal-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 2rem;
+  font-weight: 700;;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--darkblue);
+}
+
+#task-form,
+#project-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-height: 300px;
+}
+
+#task-form input,
+#task-form select,
+#task-form textarea,
+#project-form input {
+  max-width: 260px;
+  margin-bottom: 1rem;
+  padding: 0.3rem;
+  color: var(--darkblue);
+  background-color: var(--lighterblue);
+  border: 2px solid var(--darkblue);
+}
+
+#project-form input {
+  max-width: none;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+}
+
+#task-form textarea {
+  resize: none;
+}
+
+#task-form label,
+#project-form label {
+  max-width: 300px;
+  margin-bottom: 0.3rem;
+}
+
+#task-submit-btn,
+#project-submit-btn {
+  border-radius: 20px;
+  background-color: var(--darkblue);
+  color: var(--lighterblue);
+  padding: 0.5rem;
+  width: 100px;
+  align-self: center;
 }
 
 .overlay {
@@ -196,7 +274,7 @@ header {
   left:0;
   width:100vw;
   height:100vh;
-  background-color:rgba(0,0,0,0.3);
+  background-color:rgba(0,0,0,0.4);
   z-index: 1000;
 }
 
