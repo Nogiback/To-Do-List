@@ -261,10 +261,24 @@ header {
   border-radius: 20px;
   background-color: var(--darkblue);
   color: var(--lighterblue);
-  padding: 0.5rem;
+  padding: 0.4rem;
   width: 100px;
   align-self: center;
+  box-shadow: var(--shadow);
+  position: relative;
 }
+
+#task-submit-btn:hover,
+#project-submit-btn:hover {
+  color: var(--darkblue);
+  background-color: var(--lighterblue);
+}
+
+#task-submit-btn:active,
+#project-submit-btn:active {
+  top: 2px;
+}
+
 
 .overlay {
   display: none;
