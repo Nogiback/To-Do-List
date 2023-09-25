@@ -26,11 +26,7 @@
       </div>
       <div class="user-projects">
         <h1>Projects</h1>
-        <div class="user-projects-list">
-          <button>Test Project 1</button>
-          <button>Test Project 2</button>
-          <button>Test Project 3</button>
-        </div>
+        <div class="user-projects-list"></div>
         <button id="add-project-btn"><i class="fa-solid fa-circle-plus" style="color: #001c30;"></i>Add Project</button>
       </div>
     </nav>
@@ -48,8 +44,8 @@
       <button id="close-task-modal-btn"><i class="fa-solid fa-x"></i></button>
     </div>
     <form action="/" method="get" id="task-form">
-      <label for="task-title">Task Title:</label>
-      <input type="text" id="task-title" name="task-title" placeholder="Task Title" maxlength="30" required/>
+      <label for="task-title-input">Task Title:</label>
+      <input type="text" id="task-title-input" name="task-title-input" placeholder="Task Title" maxlength="30" required/>
       <label for="task-description">Task Description:</label>
       <textarea id="task-description" name="task-description" rows="6" placeholder="Enter task description here..."></textarea>
       <label for="task-date">Task Due Date:</label>
@@ -63,7 +59,7 @@
       <label for="project-select">Project:</label>
       <select name="task-project" id="task-project">
         <!-- Project Options -->
-        <option value="Test Project">Test Project</option>
+        <option value="inbox">None</option>
       </select>
       <button id="task-submit-btn" value="default">Add Task</button>
     </form>
