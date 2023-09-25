@@ -6,11 +6,27 @@ import Interface from "./Interface"
 document.addEventListener('DOMContentLoaded', Interface.initButtons);
 document.addEventListener('DOMContentLoaded', Interface.initModals);
 
-const task = new Task("Test", "Test Description", "22/09/2023", "High");
+const task1 = new Task("Test", "Test Description", "22/09/2023", "High");
+const task2 = new Task("Test2", "Test Description 2", "21/11/2024", "Low");
+
+const project1 = new Project("Project 1");
+project1.addTask(task1);
+project1.addTask(task2);
+
+const todolist = new ToDoList();
+todolist.addProject(project1);
 
 console.log("Test");
-console.log(task);
-console.log(task.name);
-console.log(task.description);
-console.log(task.getDueDate());
-console.log(task.getPriority());
+console.log(task1);
+console.log(task1.name);
+console.log(task2.description);
+console.log(task1.getDueDate());
+console.log(task2.getPriority());
+
+console.log(project1);
+console.log(project1.name);
+console.log(project1.getTasks());
+
+console.log(todolist);
+console.log(todolist.getProject(project1.name));
+console.log(todolist.getProjects());

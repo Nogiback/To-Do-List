@@ -29,7 +29,7 @@ class Project {
   }
 
   addTask(newTask) {
-    if (this.tasks.checkTask(newTask)) {
+    if (this.tasks.find((task) => task.getName() === newTask.name)) {
       return;
     }
     this.tasks.push(newTask);
