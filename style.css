@@ -156,9 +156,14 @@ header {
 .user-project-delete-btn {
   background-color: none;
   width: fit-content;
-  padding-right: 12px;
+  padding: 0 10px;
   opacity: 0;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+}
+
+.user-project-delete-btn:hover {
+  color: red;
+  transition: 0.3s ease-in-out;
 }
 
 .default-project-btn,
@@ -182,10 +187,10 @@ header {
 }
 
 .project-dashboard {
-  padding: 20px;
+  padding: 1.8rem 2.5rem;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
   width: 100%;
 }
 
@@ -193,6 +198,7 @@ header {
   font-size: 2.5rem;
   font-weight: 700;
   min-width: max-content;
+  border-bottom: 2px solid var(--darkblue);
 }
 
 /*---------------------------------------- MODALS ---------------------------------------*/
