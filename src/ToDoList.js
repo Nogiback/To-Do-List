@@ -1,6 +1,6 @@
-// import { compareAsc, toDate } from 'date-fns'
-// import Project from './Project'
-// import Task from './Task'
+import { compareAsc, toDate } from 'date-fns'
+import Project from './Project'
+import Task from './Task'
 
 class ToDoList {
   constructor() {
@@ -15,23 +15,23 @@ class ToDoList {
     return this.projects;
   }
 
-  getProject(projectName) {
-    return this.projects.find((project) => project.getName() === projectName);
+  getProject(projectTitle) {
+    return this.projects.find((project) => project.getTitle() === projectTitle);
   }
 
-  checkProject(projectName) {
-    return this.projects.some((project) => project.getName() === projectName);
+  checkProject(projectTitle) {
+    return this.projects.some((project) => project.getTitle() === projectTitle);
   }
 
   addProject(newProject) {
-    if (this.projects.find((project) => project.getName() === newProject.name)) {
+    if (this.projects.find((project) => project.getTitle() === newProject.title)) {
       return;
     }
     this.projects.push(newProject);
   }
 
-  deleteProject(projectName) {
-    const projectToDelete = getProject(projectName);
+  deleteProject(project) {
+    const projectToDelete = getProject(project);
     this.projects.splice(this.projects.indexOf(projectToDelete), 1);
   }
 

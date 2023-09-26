@@ -1,15 +1,15 @@
 class Project {
-  constructor(name) {
-    this.name = name;
+  constructor(title) {
+    this.title = title;
     this.tasks = [];
   }
 
-  setName(name) {
-    this.name = name;
+  setTitle(title) {
+    this.title = title;
   }
 
-  getName() {
-    return this.name;
+  getTitle() {
+    return this.title;
   }
 
   setTasks(tasks) {
@@ -20,23 +20,23 @@ class Project {
     return this.tasks;
   }
 
-  getTask(taskName) {
-    return this.tasks.find((task) => task.getName() === taskName);
+  getTask(taskTitle) {
+    return this.tasks.find((task) => task.getTitle() === taskTitle);
   }
 
-  checkTask(taskName) {
-    return this.tasks.some((task) => task.getName() === taskName);
+  checkTask(taskTitle) {
+    return this.tasks.some((task) => task.getTitle() === taskTitle);
   }
 
   addTask(newTask) {
-    if (this.tasks.find((task) => task.getName() === newTask.name)) {
+    if (this.tasks.find((task) => task.getTitle() === newTask.title)) {
       return;
     }
     this.tasks.push(newTask);
   }
 
-  deleteTask(taskName) {
-    this.tasks = this.tasks.filter((task) => task.name !== taskName);
+  deleteTask(taskTitle) {
+    this.tasks = this.tasks.filter((task) => task.title !== taskTitle);
   }
 
 }

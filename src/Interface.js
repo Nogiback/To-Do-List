@@ -2,6 +2,7 @@ import { format } from 'date-fns'
 import Task from './Task'
 import ToDoList from './ToDoList';
 import Project from './Project';
+import Storage from './Storage';
 
 class Interface {
 
@@ -50,15 +51,19 @@ class Interface {
     const addTaskModal = document.getElementById('task-modal');
     const addProjectModal = document.getElementById('project-modal');
     //edit task modal
+    const taskForm = document.getElementById('task-form');
+    const projectForm = document.getElementById('project-form');
     const overlay = document.getElementById('overlay');
   
     addTaskModal.onclose = () => {
       addTaskModal.close();
+      taskForm.reset();
       overlay.style.display = 'none';
     }
 
     addProjectModal.onclose = () => {
       addProjectModal.close();
+      projectForm.reset();
       overlay.style.display = 'none';
     }
   }
@@ -101,19 +106,57 @@ class Interface {
 
     Interface.closeAddTaskModal();
     //store in project > in To Do List > in localStorage
-    //Interface.createTaskBar(values)
+    //reloads page with new ToDoList so new task is now added to project if opened
+  }
+
+  static createTaskBar(taskTitle, task) {
+    //creates task item on dashboard
   }
  
   static addProject() {
     const projectTitleField = document.getElementById('project-title-input');
     const projectTitle = projectTitleField.value;
 
-    console.log(projectTitle);
     Interface.closeAddProjectModal();
+    Storage.addProject(new Project(projectTitle));
+    Interface.createProjectButton(projectTitle);
     //store in ToDo List > in localStorage
-    //Interface.createProjectButton(projectTitle);
+    //reloads page with new ToDoList so that new project is added to list
   }
 
+  static createProjectButton(projectTitle) {
+    const userProjectsList = document.getElementById('user-projects-list');
+    const newProjectButton = document.createElement('button');
+    const projectCloseButton = document.createElement('i');
+
+    newProjectButton.setAttribute('id', 'user-project');
+    projectCloseButton.classList.add('fa-solid', 'fa-x');
+    newProjectButton.textContent = projectTitle;
+    newProjectButton.appendChild(projectCloseButton);
+    userProjectsList.appendChild(newProjectButton);
+    
+  }
+
+  static clearAll() {
+    Interface.clearProjectDashboard();
+    Interface.clearUserProjectList();
+    Interface.clearTasks();
+  }
+
+  static clearProjectDashboard() {
+    const projectDashboard = document.getElementById('project-dashboard');
+    projectDashboard.textContent = '';
+  }
+
+  static clearUserProjectList() {
+    const userProjectsList = document.getElementById('user-projects-list');
+    userProjectsList.textContent = '';
+  }
+
+  static clearTasks() {
+    const tasksList = document.getElementById('tasks-list');
+    tasksList.textContent = '';
+  }
 }
 
 export default Interface;
