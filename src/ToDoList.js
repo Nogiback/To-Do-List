@@ -30,8 +30,8 @@ class ToDoList {
     this.projects.push(newProject);
   }
 
-  deleteProject(project) {
-    const projectToDelete = getProject(project);
+  deleteProject(projectTitle) {
+    const projectToDelete = this.projects.find((project) => project.getTitle() === projectTitle);
     this.projects.splice(this.projects.indexOf(projectToDelete), 1);
   }
 

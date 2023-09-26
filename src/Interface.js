@@ -14,8 +14,10 @@ class Interface {
     //open main project tasks list
 
   static initHomepage() {
-    //load projects
-    //initialize project buttons
+    Interface.initModalButtons();
+    Interface.initModals();
+    Interface.initButtons();
+    Interface.loadProjects();
     //open main/un-categorized tasks (Project: None)
   }
 
@@ -23,6 +25,9 @@ class Interface {
     //get todolist > projects from localStorage
     //Interface.createProjectButton for each user project saved in storage
     //initialize all project buttons
+    Storage.getToDoList().getProjects().forEach((project) => {
+      Interface.createProjectButton(project.title);
+    });
   }
 
   static loadTasks(projectTitle) {
@@ -219,10 +224,13 @@ class Interface {
   }
 
   static deleteProject(projectTitle, projectButton) {
-    //if active project, clear dashboard
-    //Storage.deleteProject()
-    //clear Projects
-    //re-load Projects from Storage
+    if (projectButton.classList.contains('active')) {
+      Interface.clearProjectDashboard();
+    }
+
+    Storage.deleteProject(projectTitle);
+    Interface.clearUserProjectList();
+    Interface.loadProjects();
   }
 
   static clearAll() {

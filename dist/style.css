@@ -167,13 +167,20 @@ header {
 }
 
 .default-project-btn,
-.user-project-btn,
 #add-project-btn {
   text-align: left;
   width: 210px;
   padding: 6px;
   border-radius: 8px;
 }
+
+.user-project-btn {
+  text-align: left;
+  width: 100%;
+  padding: 6px;
+  border-radius: 8px;
+}
+
 
 .default-project-btn:hover,
 #add-project-btn:hover,
