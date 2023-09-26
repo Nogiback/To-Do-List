@@ -5,6 +5,7 @@ import Interface from "./Interface";
 import Storage from "./Storage";
 
 document.addEventListener('DOMContentLoaded', Interface.initButtons);
+document.addEventListener('DOMContentLoaded', Interface.initModalButtons);
 document.addEventListener('DOMContentLoaded', Interface.initModals);
 
 // Testing

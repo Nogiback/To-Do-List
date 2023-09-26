@@ -25,12 +25,24 @@ class Interface {
     //initialize all project buttons
   }
 
-  static loadProjectDashboard(projectTitle) {
-    //load project title onto dashboard
-    //load tasks onto dashboard
+  static loadTasks(projectTitle) {
+    //get tasks from Storage > todolist > project > tasks
+    //loop through tasks and create task bars > Interface.createTaskBar
   }
 
-  static initButtons() {
+  static loadProjectDashboard(projectTitle) {
+    //const projectTitleHeader = document.getElementById('project-title');
+    const projectDashboard = document.getElementById('project-dashboard');
+    const projectTitleHeader = document.createElement('h1');
+    projectTitleHeader.classList.add('project-title');
+    projectTitleHeader.setAttribute('id', 'project-title');
+    projectTitleHeader.textContent = `${projectTitle}`;
+    projectDashboard.appendChild(projectTitleHeader);
+
+    Interface.loadTasks(projectTitle);
+  }
+
+  static initModalButtons() {
     //Modal buttons
     const addTaskButton = document.getElementById('add-task-btn');
     const closeAddTaskButton = document.getElementById('close-task-modal-btn');
@@ -40,29 +52,6 @@ class Interface {
     const submitProjectButton = document.getElementById('project-submit-btn');
     const taskForm = document.getElementById('task-form');
     const projectForm = document.getElementById('project-form');
-
-    //Project buttons
-    const allTasksButton = document.getElementById('all-tasks-btn');
-    //daily tasks button (implement later)
-    //weekly tasks button (implement later)
-    const userProjectButtons = document.querySelectorAll('.user-project-btn');
-    const userProjectDeleteButtons = document.querySelectorAll('.user-project-delete-btn');
-
-    //Project button event listeners
-    allTasksButton.addEventListener('click', Interface.openAllTasks());
-    //event listener for daily tasks (implement later)
-    //event listener for weekly tasks (implement later)
-    userProjectButtons.forEach((userProjectButton) => {
-      userProjectButton.addEventListener('click', (e) => {
-        Interface.openProject(e.target.textContent, userProjectButton);
-      });
-    });
-
-    userProjectDeleteButtons.forEach((userProjectDeleteButton) => {
-      userProjectDeleteButton.addEventListener('click', (e) => {
-        Interface.deleteProject(e.target.getAttribute('data-project'), e.target.previousElementSibling);
-      });
-    });
 
     //Modal event listeners
     addTaskButton.addEventListener('click', Interface.openAddTaskModal);
@@ -88,6 +77,31 @@ class Interface {
         e.preventDefault();
         Interface.addProject();
       }
+    });
+  }
+
+  static initButtons() {
+    //Project buttons
+    const allTasksButton = document.getElementById('all-tasks-btn');
+    //daily tasks button (implement later)
+    //weekly tasks button (implement later)
+    const userProjectButtons = document.querySelectorAll('.user-project-btn');
+    const userProjectDeleteButtons = document.querySelectorAll('.user-project-delete-btn');
+
+    //Project button event listeners
+    allTasksButton.addEventListener('click', Interface.openAllTasks());
+    //event listener for daily tasks (implement later)
+    //event listener for weekly tasks (implement later)
+    userProjectButtons.forEach((userProjectButton) => {
+      userProjectButton.addEventListener('click', (e) => {
+        Interface.openProject(e.target.textContent, userProjectButton);
+      });
+    });
+
+    userProjectDeleteButtons.forEach((userProjectDeleteButton) => {
+      userProjectDeleteButton.addEventListener('click', (e) => {
+        Interface.deleteProject(e.target.getAttribute('data-project'), e.target.previousElementSibling);
+      });
     });
   }
 
@@ -184,16 +198,24 @@ class Interface {
     projectDiv.appendChild(projectDeleteButton);
     userProjectsList.appendChild(projectDiv);
 
-    //re-initialize nav buttons so that new project button works
+    Interface.initButtons();
   }
 
   static openAllTasks() {
     //load all tasks
   }
 
-  static openProject() {
-    //set active project
-    //load project and tasks
+  static openProject(projectTitle, projectButton) {
+    const defaultProjectButtons = document.querySelectorAll('.default-project-btn');
+    const userProjectButtons = document.querySelectorAll('.user-project-btn');
+    const allProjectButtons = [...defaultProjectButtons, ...userProjectButtons];
+
+    //Setting the 'active' project and disabling all other project buttons
+    allProjectButtons.forEach((button) => button.classList.remove('active'));
+    projectButton.classList.add('active');
+
+    Interface.clearProjectDashboard();
+    Interface.loadProjectDashboard(projectTitle);
   }
 
   static deleteProject(projectTitle, projectButton) {
