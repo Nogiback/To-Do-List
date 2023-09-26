@@ -6,13 +6,6 @@ import Storage from './Storage';
 
 class Interface {
 
-  //load homepage on open
-    //load projects
-      //load tasks
-    //initialize project buttons
-      //initialize task buttons
-    //open main project tasks list
-
   static initHomepage() {
     Interface.initModalButtons();
     Interface.initModals();
@@ -22,9 +15,6 @@ class Interface {
   }
 
   static loadProjects() {
-    //get todolist > projects from localStorage
-    //Interface.createProjectButton for each user project saved in storage
-    //initialize all project buttons
     Storage.getToDoList().getProjects().forEach((project) => {
       Interface.createProjectButton(project.title);
     });
