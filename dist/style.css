@@ -145,26 +145,40 @@ header {
   margin-top: 5px;
 }
 
-#user-project {
+.user-project {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px;
+  width: 220px;
+  border-radius: 8px;
 }
 
-.nav button {
+.user-project-delete-btn {
+  background-color: none;
+  width: fit-content;
+  padding-right: 12px;
+  opacity: 0;
+  font-size: 1.5rem;
+}
+
+.default-project-btn,
+.user-project-btn,
+#add-project-btn {
   text-align: left;
   width: 210px;
   padding: 6px;
   border-radius: 8px;
 }
 
-.user-projects-list button {
-  padding: 4px
-}
-
-.nav button:hover {
+.default-project-btn:hover,
+#add-project-btn:hover,
+.user-project:hover {
   background-color: var(--lightbluehover);
+  transition: 0.3s ease-in-out;
+
+  .user-project-delete-btn {
+    opacity: 1;
+  }
 }
 
 .project-dashboard {

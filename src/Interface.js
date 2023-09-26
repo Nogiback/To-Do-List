@@ -13,7 +13,25 @@ class Interface {
       //initialize task buttons
     //open main project tasks list
 
+  static initHomepage() {
+    //load projects
+    //initialize project buttons
+    //open main/un-categorized tasks (Project: None)
+  }
+
+  static loadProjects() {
+    //get todolist > projects from localStorage
+    //Interface.createProjectButton for each user project saved in storage
+    //initialize all project buttons
+  }
+
+  static loadProjectDashboard(projectTitle) {
+    //load project title onto dashboard
+    //load tasks onto dashboard
+  }
+
   static initButtons() {
+    //Modal buttons
     const addTaskButton = document.getElementById('add-task-btn');
     const closeAddTaskButton = document.getElementById('close-task-modal-btn');
     const addProjectButton = document.getElementById('add-project-btn');
@@ -23,10 +41,35 @@ class Interface {
     const taskForm = document.getElementById('task-form');
     const projectForm = document.getElementById('project-form');
 
+    //Project buttons
+    const allTasksButton = document.getElementById('all-tasks-btn');
+    //daily tasks button (implement later)
+    //weekly tasks button (implement later)
+    const userProjectButtons = document.querySelectorAll('.user-project-btn');
+    const userProjectDeleteButtons = document.querySelectorAll('.user-project-delete-btn');
+
+    //Project button event listeners
+    allTasksButton.addEventListener('click', Interface.openAllTasks());
+    //event listener for daily tasks (implement later)
+    //event listener for weekly tasks (implement later)
+    userProjectButtons.forEach((userProjectButton) => {
+      userProjectButton.addEventListener('click', (e) => {
+        Interface.openProject(e.target.textContent, userProjectButton);
+      });
+    });
+
+    userProjectDeleteButtons.forEach((userProjectDeleteButton) => {
+      userProjectDeleteButton.addEventListener('click', (e) => {
+        Interface.deleteProject(e.target.getAttribute('data-project'), e.target.previousElementSibling);
+      });
+    });
+
+    //Modal event listeners
     addTaskButton.addEventListener('click', Interface.openAddTaskModal);
     closeAddTaskButton.addEventListener('click', Interface.closeAddTaskModal);
     addProjectButton.addEventListener('click', Interface.openAddProjectModal);
     closeAddProjectButton.addEventListener('click', Interface.closeAddProjectModal);
+
     submitTaskButton.addEventListener('click', (e) => {
       const isValid = taskForm.checkValidity();
       if(!isValid) {
@@ -36,6 +79,7 @@ class Interface {
        Interface.addTask();
       }
     });
+
     submitProjectButton.addEventListener('click', (e) => {
       const isValid = projectForm.checkValidity();
       if(!isValid) {
@@ -120,21 +164,43 @@ class Interface {
     Interface.closeAddProjectModal();
     Storage.addProject(new Project(projectTitle));
     Interface.createProjectButton(projectTitle);
-    //store in ToDo List > in localStorage
-    //reloads page with new ToDoList so that new project is added to list
+    //reload page with new ToDoList so that new project is added to list
   }
 
   static createProjectButton(projectTitle) {
     const userProjectsList = document.getElementById('user-projects-list');
-    const newProjectButton = document.createElement('button');
-    const projectCloseButton = document.createElement('i');
+    const projectDiv = document.createElement('div');
+    const projectButton = document.createElement('button');
+    const projectDeleteButton = document.createElement('button');
 
-    newProjectButton.setAttribute('id', 'user-project');
-    projectCloseButton.classList.add('fa-solid', 'fa-x');
-    newProjectButton.textContent = projectTitle;
-    newProjectButton.appendChild(projectCloseButton);
-    userProjectsList.appendChild(newProjectButton);
-    
+    projectDiv.classList.add('user-project');
+    projectButton.classList.add('user-project-btn');
+    projectDeleteButton.classList.add('user-project-delete-btn');
+    projectDeleteButton.setAttribute('data-project', `${projectTitle}`);
+    projectDeleteButton.innerHTML = '&times';
+    projectButton.textContent = projectTitle;
+
+    projectDiv.appendChild(projectButton);
+    projectDiv.appendChild(projectDeleteButton);
+    userProjectsList.appendChild(projectDiv);
+
+    //re-initialize nav buttons so that new project button works
+  }
+
+  static openAllTasks() {
+    //load all tasks
+  }
+
+  static openProject() {
+    //set active project
+    //load project and tasks
+  }
+
+  static deleteProject(projectTitle, projectButton) {
+    //if active project, clear dashboard
+    //Storage.deleteProject()
+    //clear Projects
+    //re-load Projects from Storage
   }
 
   static clearAll() {

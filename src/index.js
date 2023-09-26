@@ -1,7 +1,8 @@
 import Task from "./Task"
 import Project from "./Project";
 import ToDoList from "./ToDoList";
-import Interface from "./Interface"
+import Interface from "./Interface";
+import Storage from "./Storage";
 
 document.addEventListener('DOMContentLoaded', Interface.initButtons);
 document.addEventListener('DOMContentLoaded', Interface.initModals);
@@ -32,8 +33,10 @@ console.log(todolist);
 console.log(todolist.getProject(project1.title));
 console.log(todolist.getProjects());
 
+console.log(Storage.getToDoList());
+
 document.addEventListener('click', (e) => {
-  console.log(e.target);
+  console.log(e.target.previousElementSibling);
 });
 
 localStorage.clear();
