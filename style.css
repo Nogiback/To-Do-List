@@ -145,6 +145,13 @@ header {
   margin-top: 5px;
 }
 
+#user-project {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
 .nav button {
   text-align: left;
   width: 210px;
@@ -160,7 +167,7 @@ header {
   background-color: var(--lightbluehover);
 }
 
-.tasks-dashboard {
+.project-dashboard {
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -168,7 +175,7 @@ header {
   width: 100%;
 }
 
-.tasks-dashboard h1 {
+.project-dashboard h1 {
   font-size: 2.5rem;
   font-weight: 700;
   min-width: max-content;
