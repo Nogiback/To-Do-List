@@ -9,7 +9,7 @@ class Interface {
   static initHomepage() {
     Interface.initModalButtons();
     Interface.initModals();
-    Interface.initButtons();
+    Interface.initProjectButtons();
     Interface.loadProjects();
     //open main/un-categorized tasks (Project: None)
   }
@@ -75,8 +75,7 @@ class Interface {
     });
   }
 
-  static initButtons() {
-    //Project buttons
+  static initProjectButtons() {
     const allTasksButton = document.getElementById('all-tasks-btn');
     //daily tasks button (implement later)
     //weekly tasks button (implement later)
@@ -193,7 +192,7 @@ class Interface {
     projectDiv.appendChild(projectDeleteButton);
     userProjectsList.appendChild(projectDiv);
 
-    Interface.initButtons();
+    Interface.initProjectButtons();
   }
 
   static openAllTasks() {

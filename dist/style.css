@@ -55,6 +55,8 @@ header {
   gap: 50px;
   background-color: var(--darkblue);
   box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
 }
 
 .title {
@@ -102,10 +104,12 @@ header {
 
 .main {
   display: flex;
-  height: calc(100vh - 48px - 90px);
+  padding-bottom: 48px;
+  /* height: calc(100vh - 48px - 90px); */
 }
 
 .nav {
+  min-height: 100vh;
   min-width: 210px;
   padding: 30px;
   background-color: var(--lightblue);
