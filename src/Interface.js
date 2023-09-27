@@ -6,35 +6,14 @@ import Storage from './Storage';
 
 class Interface {
 
+//-------------------------------- INITIALIZER METHODS ----------------------------------//
+
   static initHomepage() {
     Interface.initModalButtons();
     Interface.initModals();
-    Interface.initProjectButtons();
     Interface.loadProjects();
+    Interface.initProjectButtons();
     //open main/un-categorized tasks (Project: None)
-  }
-
-  static loadProjects() {
-    Storage.getToDoList().getProjects().forEach((project) => {
-      Interface.createProjectButton(project.title);
-    });
-  }
-
-  static loadTasks(projectTitle) {
-    //get tasks from Storage > todolist > project > tasks
-    //loop through tasks and create task bars > Interface.createTaskBar
-  }
-
-  static loadProjectDashboard(projectTitle) {
-    //const projectTitleHeader = document.getElementById('project-title');
-    const projectDashboard = document.getElementById('project-dashboard');
-    const projectTitleHeader = document.createElement('h1');
-    projectTitleHeader.classList.add('project-title');
-    projectTitleHeader.setAttribute('id', 'project-title');
-    projectTitleHeader.textContent = `${projectTitle}`;
-    projectDashboard.appendChild(projectTitleHeader);
-
-    Interface.loadTasks(projectTitle);
   }
 
   static initModalButtons() {
@@ -83,7 +62,7 @@ class Interface {
     const userProjectDeleteButtons = document.querySelectorAll('.user-project-delete-btn');
 
     //Project button event listeners
-    allTasksButton.addEventListener('click', Interface.openAllTasks());
+    allTasksButton.addEventListener('click', Interface.handleProjectButton);
     //event listener for daily tasks (implement later)
     //event listener for weekly tasks (implement later)
 
@@ -95,18 +74,6 @@ class Interface {
       deleteButton.addEventListener('click', Interface.handleProjectButton)
     );
 
-  }
-
-  static handleProjectButton(e) {
-    let projectTitle = '';
-    if (e.target.classList.contains('user-project-btn')){
-      projectTitle = this.textContent;
-      Interface.openProject(projectTitle, this);
-    } else {
-      projectTitle = this.getAttribute('data-project');
-      console.log(e.target.previousElementSibling);
-      Interface.deleteProject(projectTitle, e.target.previousElementSibling);
-    }
   }
 
   static initModals() {
@@ -129,6 +96,9 @@ class Interface {
       overlay.style.display = 'none';
     }
   }
+
+//----------------------------------- MODAL METHODS -------------------------------------//
+
 
   static openAddTaskModal() {
     const addTaskModal = document.getElementById('task-modal');
@@ -154,6 +124,58 @@ class Interface {
     addProjectModal.close();
   }
 
+//----------------------------------- LOAD METHOD -------------------------------------//
+
+  static loadProjectDashboard(projectTitle) {
+    const projectDashboard = document.getElementById('project-dashboard');
+    const projectTitleHeader = document.createElement('h1');
+    projectTitleHeader.classList.add('project-title');
+    projectTitleHeader.setAttribute('id', 'project-title');
+    projectTitleHeader.textContent = `${projectTitle}`;
+    projectDashboard.appendChild(projectTitleHeader);
+
+    Interface.loadTasks(projectTitle);
+  }
+
+//------------------------------- BUTTON HANDLER METHODS --------------------------------//
+
+  static handleProjectButton(e) {
+    let projectTitle = '';
+
+    if (e.target.classList.contains('user-project-btn')){
+      projectTitle = this.textContent;
+      Interface.openProject(projectTitle, this);
+      return;
+    } 
+    
+    if (e.target.classList.contains('user-project-delete-btn')){
+      projectTitle = this.getAttribute('data-project');
+      Interface.deleteProject(projectTitle, e.target.previousElementSibling);
+      return;
+    }
+
+    if (e.target.getAttribute('id') === 'all-tasks-btn') {
+      projectTitle = 'All Tasks';
+      Interface.openProject(projectTitle, this);
+      return;
+    }
+
+  }
+
+  static handleTaskButton(e) {
+    //from event listener on task bar
+    //complete task
+    //edit task > edit modal
+    //delete task
+  }
+
+//------------------------------------ TASK METHODS -------------------------------------//
+
+  static loadTasks(projectTitle) {
+    //get tasks from Storage > todolist > project > tasks
+    //loop through tasks and create task bars > Interface.createTaskBar
+  }
+
   static addTask() {
     const taskTitleField = document.getElementById('task-title-input');
     const taskDescField = document.getElementById('task-description');
@@ -171,10 +193,27 @@ class Interface {
     //reloads page with new ToDoList so new task is now added to project if opened
   }
 
-  static createTaskBar(taskTitle, task) {
+  static createTask(taskTitle, task) {
     //creates task item on dashboard
   }
+
+  static deleteTask() {
+    //delete task from screen
+    //delete task from storage
+  }
+
+  static openAllTasks() {
+    //load all tasks
+  }
+
+//---------------------------------- PROJECT METHODS ------------------------------------//
  
+  static loadProjects() {
+    Storage.getToDoList().getProjects().forEach((project) => {
+      Interface.createProjectButton(project.title);
+    });
+  }
+
   static addProject() {
     const projectTitleField = document.getElementById('project-title-input');
     const projectTitle = projectTitleField.value;
@@ -205,10 +244,6 @@ class Interface {
     Interface.initProjectButtons();
   }
 
-  static openAllTasks() {
-    //load all tasks
-  }
-
   static openProject(projectTitle, projectButton) {
     const defaultProjectButtons = document.querySelectorAll('.default-project-btn');
     const userProjectButtons = document.querySelectorAll('.user-project-btn');
@@ -231,6 +266,8 @@ class Interface {
     Interface.clearUserProjectList();
     Interface.loadProjects();
   }
+
+//-------------------------------- CLEAR HTML METHODS ----------------------------------//
 
   static clearAll() {
     Interface.clearProjectDashboard();
