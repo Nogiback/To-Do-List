@@ -86,17 +86,27 @@ class Interface {
     allTasksButton.addEventListener('click', Interface.openAllTasks());
     //event listener for daily tasks (implement later)
     //event listener for weekly tasks (implement later)
-    userProjectButtons.forEach((userProjectButton) => {
-      userProjectButton.addEventListener('click', (e) => {
-        Interface.openProject(e.target.textContent, userProjectButton);
-      });
-    });
 
-    userProjectDeleteButtons.forEach((userProjectDeleteButton) => {
-      userProjectDeleteButton.addEventListener('click', (e) => {
-        Interface.deleteProject(e.target.getAttribute('data-project'), e.target.previousElementSibling);
-      });
-    });
+    userProjectButtons.forEach((projectButton) => 
+      projectButton.addEventListener('click', Interface.handleProjectButton)
+    );
+
+    userProjectDeleteButtons.forEach((deleteButton) => 
+      deleteButton.addEventListener('click', Interface.handleProjectButton)
+    );
+
+  }
+
+  static handleProjectButton(e) {
+    let projectTitle = '';
+    if (e.target.classList.contains('user-project-btn')){
+      projectTitle = this.textContent;
+      Interface.openProject(projectTitle, this);
+    } else {
+      projectTitle = this.getAttribute('data-project');
+      console.log(e.target.previousElementSibling);
+      Interface.deleteProject(projectTitle, e.target.previousElementSibling);
+    }
   }
 
   static initModals() {

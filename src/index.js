@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', Interface.initHomepage);
 // console.log(todolist.getProject(project1.title));
 // console.log(todolist.getProjects());
 
-//console.log(Storage.getToDoList());
+console.log(Storage.getToDoList());
 
 document.addEventListener('click', (e) => {
   console.log(e.target);
