@@ -110,8 +110,14 @@ class Interface {
     const taskTitleField = document.getElementById('task-title-input');
     const overlay = document.getElementById('overlay');
     const projectSelector = document.getElementById('project-select');
-    taskTitleField.focus();
+    projectSelector.textContent = '';
+    const inboxOption = document.createElement('option');
+    inboxOption.value = 'Inbox';
+    inboxOption.textContent = 'Inbox';
+    projectSelector.appendChild(inboxOption);
 
+    taskTitleField.focus();
+    
     Storage.getToDoList().getProjects().forEach((project) => {
       const projectOption = document.createElement('option');
       projectOption.textContent = project.getTitle();
@@ -192,13 +198,13 @@ class Interface {
 //------------------------------------ TASK METHODS -------------------------------------//
 
   static loadTasks(projectTitle) {
-    // Storage
-    //   .getToDoList()
-    //   .getProject(projectTitle)
-    //   .getTasks()
-    //   .forEach((task) => {
-    //     Interface.createTask(task.title, task.description, task.dueDate, task.priority);
-    //   });
+    Storage
+      .getToDoList()
+      .getProject(projectTitle)
+      .getTasks()
+      .forEach((task) => {
+        Interface.createTask(task.title, task.dueDate, task.priority);
+      });
   }
 
   static addTask() {
@@ -215,8 +221,8 @@ class Interface {
 
     Interface.closeAddTaskModal();
     Storage.addTask(taskProject, new Task(taskTitle, taskDescription, taskDueDate, taskPriority));
-    Interface.openProject(taskProject, document.getElementById(`user-project-${projectTitle}`));
-    Interface.createTask(taskTitle, taskDescription, taskDueDate, taskPriority);
+    Interface.openProject(taskProject, document.getElementById(`user-project-${taskProject}`));
+    //Interface.createTask(taskTitle, taskDueDate, taskPriority);
   }
 
   static deleteTask() {
@@ -224,22 +230,66 @@ class Interface {
     //delete task from storage
   }
 
-  static createTask(taskTitle, taskDescription, taskDueDate, taskPriority) {
-   
+  static createTask(taskTitle, taskDueDate, taskPriority) {
+    const projectDashboard = document.getElementById('project-dashboard');
 
+    //Create taskbar
+    const taskBar = document.createElement('div');
+    taskBar.classList.add('task-bar');
+    taskBar.setAttribute('id', `task-bar-${taskTitle}`);
 
-    // <div class="task-bar" id="TASK-NAME-bar">
-    //       <div class="left-panel">
-    //         <input type="checkbox" id="task-complete-checkbox" name="task-complete-checkbox"/>
-    //         <label for="task-complete-checkbox">TASK TITLE</label>
-    //       </div>
-    //       <div class="right-panel">
-    //         <div class="taskbar-due-date">27/09/2023</div>
-    //         <div class="taskbar-priority"><i class="fa-solid fa-flag" style="color: blue;"></i></div>
-    //         <button class="edit-btn"><i class="fa-solid fa-pen-to-square"></i></button>
-    //         <button class="trash-btn"><i class="fa-solid fa-trash"></i></button>
-    //       </div>
-    //     </div>
+    //Create left panel with checkbox and task label
+    const leftPanel = document.createElement('div');
+    const completeCheckbox = document.createElement('input');
+    const taskLabel = document.createElement('div');
+    leftPanel.classList.add('left-panel');
+    completeCheckbox.setAttribute('type', 'checkbox');
+    completeCheckbox.setAttribute('id', 'task-complete-checkbox');
+    completeCheckbox.setAttribute('name', 'task-complete-checkbox');
+    taskLabel.setAttribute('id', 'task-label');
+    taskLabel.textContent = `${taskTitle}`;
+
+    //Create right panel with due date, priority, edit and delete buttons
+    const rightPanel = document.createElement('div');
+    const taskDateLabel = document.createElement('div');
+    const taskPriorityLabel = document.createElement('div');
+    const taskPriorityIcon = document.createElement('i');
+    const editButton = document.createElement('button');
+    const editButtonIcon = document.createElement('i');
+    const trashButton = document.createElement('button');
+    const trashButtonIcon = document.createElement('i');
+    rightPanel.classList.add('right-panel');
+    taskDateLabel.classList.add('task-bar-due-date');
+    taskDateLabel.textContent = `${taskDueDate}`;
+    taskPriorityLabel.classList.add('task-bar-priority');
+    taskPriorityIcon.classList.add('fa-solid', 'fa-flag');
+    if(taskPriority === 'Low') {
+      taskPriorityIcon.style.color = 'blue';
+    } else if (taskPriority === "Medium") {
+      taskPriorityIcon.style.color = 'orange';
+    } else {
+      taskPriorityIcon.style.color = 'red';
+    }
+    editButton.classList.add('edit-btn');
+    editButtonIcon.classList.add('fa-solid', 'fa-pen-to-square');
+    trashButton.classList.add('trash-btn');
+    trashButtonIcon.classList.add('fa-solid', 'fa-trash');
+
+    //Appending HTML elements to create the taskbar
+    leftPanel.appendChild(completeCheckbox);
+    leftPanel.appendChild(taskLabel);
+    trashButton.appendChild(trashButtonIcon);
+    editButton.appendChild(editButtonIcon);
+    taskPriorityLabel.appendChild(taskPriorityIcon);
+    rightPanel.appendChild(taskDateLabel);
+    rightPanel.appendChild(taskPriorityLabel);
+    rightPanel.appendChild(editButton);
+    rightPanel.appendChild(trashButton);
+    taskBar.appendChild(leftPanel);
+    taskBar.appendChild(rightPanel);
+    projectDashboard.appendChild(taskBar);
+
+   //Interface.initTaskButtons();
   }
 
   static openTask(taskTitle, task) {
