@@ -64,7 +64,7 @@ header {
   flex: none;
 }
 
-.fa-list-check {
+.title .fa-list-check {
   font-size: 3rem;
 }
 
@@ -128,6 +128,10 @@ header {
 .fa-calendar-day,
 .fa-calendar-week {
   padding-right: 16px;
+}
+
+.nav .fa-solid {
+  font-size: 1.3rem;
 }
 
 .user-projects,

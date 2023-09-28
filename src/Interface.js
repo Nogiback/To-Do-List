@@ -13,7 +13,28 @@ class Interface {
     Interface.initModals();
     Interface.loadProjects();
     Interface.initProjectButtons();
-    //open main/un-categorized tasks (Project: None)
+    Interface.openProject('Inbox', document.getElementById('inbox-btn'));
+  }
+
+  static initModals() {
+    const addTaskModal = document.getElementById('task-modal');
+    const addProjectModal = document.getElementById('project-modal');
+    //edit task modal
+    const taskForm = document.getElementById('task-form');
+    const projectForm = document.getElementById('project-form');
+    const overlay = document.getElementById('overlay');
+  
+    addTaskModal.onclose = () => {
+      addTaskModal.close();
+      taskForm.reset();
+      overlay.style.display = 'none';
+    }
+
+    addProjectModal.onclose = () => {
+      addProjectModal.close();
+      projectForm.reset();
+      overlay.style.display = 'none';
+    }
   }
 
   static initModalButtons() {
@@ -55,14 +76,14 @@ class Interface {
   }
 
   static initProjectButtons() {
-    const allTasksButton = document.getElementById('all-tasks-btn');
+    const inboxButton = document.getElementById('inbox-btn');
     //daily tasks button (implement later)
     //weekly tasks button (implement later)
     const userProjectButtons = document.querySelectorAll('.user-project-btn');
     const userProjectDeleteButtons = document.querySelectorAll('.user-project-delete-btn');
 
     //Project button event listeners
-    allTasksButton.addEventListener('click', Interface.handleProjectButton);
+    inboxButton.addEventListener('click', Interface.handleProjectButton);
     //event listener for daily tasks (implement later)
     //event listener for weekly tasks (implement later)
 
@@ -76,25 +97,9 @@ class Interface {
 
   }
 
-  static initModals() {
-    const addTaskModal = document.getElementById('task-modal');
-    const addProjectModal = document.getElementById('project-modal');
-    //edit task modal
-    const taskForm = document.getElementById('task-form');
-    const projectForm = document.getElementById('project-form');
-    const overlay = document.getElementById('overlay');
-  
-    addTaskModal.onclose = () => {
-      addTaskModal.close();
-      taskForm.reset();
-      overlay.style.display = 'none';
-    }
-
-    addProjectModal.onclose = () => {
-      addProjectModal.close();
-      projectForm.reset();
-      overlay.style.display = 'none';
-    }
+  static initTaskButtons() {
+    //grab tasks buttons from DOM
+    //loop through and add event listeners to each button type (complete task,edit, change priority, delete)
   }
 
 //----------------------------------- MODAL METHODS -------------------------------------//
@@ -102,7 +107,18 @@ class Interface {
 
   static openAddTaskModal() {
     const addTaskModal = document.getElementById('task-modal');
+    const taskTitleField = document.getElementById('task-title-input');
     const overlay = document.getElementById('overlay');
+    const projectSelector = document.getElementById('project-select');
+    taskTitleField.focus();
+
+    Storage.getToDoList().getProjects().forEach((project) => {
+      const projectOption = document.createElement('option');
+      projectOption.textContent = project.getTitle();
+      projectOption.value = project.getTitle();
+      projectSelector.appendChild(projectOption);
+    });
+
     addTaskModal.showModal();
     overlay.style.display = 'block';
   }
@@ -114,7 +130,10 @@ class Interface {
 
   static openAddProjectModal() {
     const addProjectModal = document.getElementById('project-modal');
+    const projectTitleField = document.getElementById('project-title-input');
     const overlay = document.getElementById('overlay');
+    projectTitleField.focus();
+
     addProjectModal.showModal();
     overlay.style.display = 'block';
   }
@@ -124,7 +143,7 @@ class Interface {
     addProjectModal.close();
   }
 
-//----------------------------------- LOAD METHOD -------------------------------------//
+//------------------------------- LOAD DASHBOARD METHOD ---------------------------------//
 
   static loadProjectDashboard(projectTitle) {
     const projectDashboard = document.getElementById('project-dashboard');
@@ -154,8 +173,8 @@ class Interface {
       return;
     }
 
-    if (e.target.getAttribute('id') === 'all-tasks-btn') {
-      projectTitle = 'All Tasks';
+    if (e.target.getAttribute('id') === 'inbox-btn') {
+      projectTitle = 'Inbox';
       Interface.openProject(projectTitle, this);
       return;
     }
@@ -166,14 +185,20 @@ class Interface {
     //from event listener on task bar
     //complete task
     //edit task > edit modal
+    //change priority
     //delete task
   }
 
 //------------------------------------ TASK METHODS -------------------------------------//
 
   static loadTasks(projectTitle) {
-    //get tasks from Storage > todolist > project > tasks
-    //loop through tasks and create task bars > Interface.createTaskBar
+    // Storage
+    //   .getToDoList()
+    //   .getProject(projectTitle)
+    //   .getTasks()
+    //   .forEach((task) => {
+    //     Interface.createTask(task.title, task.description, task.dueDate, task.priority);
+    //   });
   }
 
   static addTask() {
@@ -181,25 +206,35 @@ class Interface {
     const taskDescField = document.getElementById('task-description');
     const taskDateField = document.getElementById('task-date');
     const taskPriorityField = document.getElementById('task-priority');
-    const taskProjectField = document.getElementById('task-project');
+    const taskProjectField = document.getElementById('project-select');
     const taskTitle = taskTitleField.value;
     const taskDescription = taskDescField.value;
     const taskDate = taskDateField.value;
     const taskPriority = taskPriorityField.value;
     const taskProject = taskProjectField.value;
 
+    console.log(taskTitle)
+    console.log(taskDescription)
+    console.log(taskDate)
+    console.log(taskPriority)
+    console.log(taskProject)
+
     Interface.closeAddTaskModal();
     //store in project > in To Do List > in localStorage
     //reloads page with new ToDoList so new task is now added to project if opened
+  }
+
+  static deleteTask() {
+    //delete task from screen
+    //delete task from storage
   }
 
   static createTask(taskTitle, task) {
     //creates task item on dashboard
   }
 
-  static deleteTask() {
-    //delete task from screen
-    //delete task from storage
+  static openTask(taskTitle, task) {
+    //opens div on screen that shows task info
   }
 
   static openAllTasks() {
@@ -221,7 +256,16 @@ class Interface {
     Interface.closeAddProjectModal();
     Storage.addProject(new Project(projectTitle));
     Interface.createProjectButton(projectTitle);
-    //reload page with new ToDoList so that new project is added to list
+  }
+
+  static deleteProject(projectTitle, projectButton) {
+    if (projectButton.classList.contains('active')) {
+      Interface.clearProjectDashboard();
+    }
+
+    Storage.deleteProject(projectTitle);
+    Interface.clearUserProjectList();
+    Interface.loadProjects();
   }
 
   static createProjectButton(projectTitle) {
@@ -255,16 +299,6 @@ class Interface {
 
     Interface.clearProjectDashboard();
     Interface.loadProjectDashboard(projectTitle);
-  }
-
-  static deleteProject(projectTitle, projectButton) {
-    if (projectButton.classList.contains('active')) {
-      Interface.clearProjectDashboard();
-    }
-
-    Storage.deleteProject(projectTitle);
-    Interface.clearUserProjectList();
-    Interface.loadProjects();
   }
 
 //-------------------------------- CLEAR HTML METHODS ----------------------------------//
