@@ -13,7 +13,7 @@ class Interface {
     Interface.initModals();
     Interface.loadProjects();
     Interface.initProjectButtons();
-    Interface.openProject('Inbox', document.getElementById('inbox-btn'));
+    //Interface.openProject('Inbox', document.getElementById('inbox-btn'));
   }
 
   static initModals() {
@@ -209,19 +209,14 @@ class Interface {
     const taskProjectField = document.getElementById('project-select');
     const taskTitle = taskTitleField.value;
     const taskDescription = taskDescField.value;
-    const taskDate = taskDateField.value;
+    const taskDueDate = taskDateField.value;
     const taskPriority = taskPriorityField.value;
     const taskProject = taskProjectField.value;
 
-    console.log(taskTitle)
-    console.log(taskDescription)
-    console.log(taskDate)
-    console.log(taskPriority)
-    console.log(taskProject)
-
     Interface.closeAddTaskModal();
-    //store in project > in To Do List > in localStorage
-    //reloads page with new ToDoList so new task is now added to project if opened
+    Storage.addTask(taskProject, new Task(taskTitle, taskDescription, taskDueDate, taskPriority));
+    Interface.openProject(taskProject, document.getElementById(`user-project-${projectTitle}`));
+    Interface.createTask(taskTitle, taskDescription, taskDueDate, taskPriority);
   }
 
   static deleteTask() {
@@ -229,8 +224,22 @@ class Interface {
     //delete task from storage
   }
 
-  static createTask(taskTitle, task) {
-    //creates task item on dashboard
+  static createTask(taskTitle, taskDescription, taskDueDate, taskPriority) {
+   
+
+
+    // <div class="task-bar" id="TASK-NAME-bar">
+    //       <div class="left-panel">
+    //         <input type="checkbox" id="task-complete-checkbox" name="task-complete-checkbox"/>
+    //         <label for="task-complete-checkbox">TASK TITLE</label>
+    //       </div>
+    //       <div class="right-panel">
+    //         <div class="taskbar-due-date">27/09/2023</div>
+    //         <div class="taskbar-priority"><i class="fa-solid fa-flag" style="color: blue;"></i></div>
+    //         <button class="edit-btn"><i class="fa-solid fa-pen-to-square"></i></button>
+    //         <button class="trash-btn"><i class="fa-solid fa-trash"></i></button>
+    //       </div>
+    //     </div>
   }
 
   static openTask(taskTitle, task) {
@@ -276,6 +285,7 @@ class Interface {
 
     projectDiv.classList.add('user-project');
     projectButton.classList.add('user-project-btn');
+    projectButton.setAttribute('id', `user-project-${projectTitle}`);
     projectDeleteButton.classList.add('user-project-delete-btn');
     projectDeleteButton.setAttribute('data-project', `${projectTitle}`);
     projectDeleteButton.innerHTML = '&times';
