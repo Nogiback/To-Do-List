@@ -160,6 +160,7 @@ class Interface {
     projectDashboard.appendChild(projectTitleHeader);
 
     Interface.loadTasks(projectTitle);
+    //Interface.initTaskButtons();
   }
 
 //------------------------------- BUTTON HANDLER METHODS --------------------------------//
@@ -288,8 +289,6 @@ class Interface {
     taskBar.appendChild(leftPanel);
     taskBar.appendChild(rightPanel);
     projectDashboard.appendChild(taskBar);
-
-   //Interface.initTaskButtons();
   }
 
   static openTask(taskTitle, task) {
