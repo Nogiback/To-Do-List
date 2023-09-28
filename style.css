@@ -2,6 +2,7 @@
 
 :root {
   --shadow: 0 2px 5px rgba(0,0,0,0.3);
+  --darkershadow: 0 3px 6px rgba(0,0,0,0.6);
   --darkblue: rgb(0, 28, 48);
   --blue: rgb(23, 107, 135);
   --lightblue: rgb(100, 204, 197);
@@ -40,6 +41,11 @@ body {
 button {
   background: none;
   cursor: pointer;
+}
+
+.main {
+  display: flex;
+  padding-bottom: 48px;
 }
 
 /*---------------------------------------- HEADER ---------------------------------------*/
@@ -100,13 +106,7 @@ header {
   top: 2px;
 }
 
-/*-------------------------------------- MAIN/NAV ---------------------------------------*/
-
-.main {
-  display: flex;
-  padding-bottom: 48px;
-  /* height: calc(100vh - 48px - 90px); */
-}
+/*-------------------------------------- NAV ---------------------------------------*/
 
 .nav {
   min-height: 100vh;
@@ -201,8 +201,10 @@ header {
   }
 }
 
+/*-------------------------------------- DASHBOARD --------------------------------------*/
+
 .project-dashboard {
-  padding: 1.8rem 2.5rem;
+  padding: 2rem 3.2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -214,6 +216,49 @@ header {
   font-weight: 700;
   min-width: max-content;
   border-bottom: 2px solid var(--darkblue);
+}
+
+.task-bar {
+  display: flex;
+  border: 2px solid var(--darkblue);
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+.task-bar .fa-solid {
+  line-height: 1.6px;
+  padding: 0;
+}
+
+.fa-pen-to-square:hover {
+  color: rgb(18, 179, 0);
+}
+
+.fa-trash:hover {
+  color: red;
+  transition: 0.3s ease-in-out;
+}
+
+.task-bar:hover {
+  box-shadow: var(--darkershadow);
+  bottom: 2px;
+}
+
+.left-panel,
+.right-panel {
+  display: flex;
+}
+
+.left-panel {
+  gap: 10px;
+}
+
+.right-panel {
+  gap: 1.5rem;
 }
 
 /*---------------------------------------- MODALS ---------------------------------------*/
