@@ -76,7 +76,7 @@
       <label for="project-select">Project:</label>
       <select name="project-select" id="project-select">
         <!-- Project Options -->
-        <option value="Inbox">Inbox</option>
+        <!-- <option value="Inbox">Inbox</option> -->
       </select>
       <button id="task-submit-btn" value="default">Add Task</button>
     </form>
@@ -91,6 +91,14 @@
       <input type="text" id="project-title-input" name="project-title-input" placeholder="Project Title" maxlength="30" required/>
       <button id="project-submit-btn" value="default">Add Project</button>
     </form>
+  </dialog>
+
+  <dialog id="task-info">
+    <h1 id="task-title-header"></h1>
+    <div id="info-description"></div>
+    <div id="info-priority"></div>
+    <div id="info-due-date"></div>
+    <div id="info-project"></div>
   </dialog>
 
   <footer class="footer">
