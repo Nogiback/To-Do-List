@@ -19,6 +19,7 @@ class Interface {
   static initModals() {
     const addTaskModal = document.getElementById('task-modal');
     const addProjectModal = document.getElementById('project-modal');
+    const taskInfoModal = document.getElementById('task-info-modal');
     //edit task modal
     const taskForm = document.getElementById('task-form');
     const projectForm = document.getElementById('project-form');
@@ -35,6 +36,11 @@ class Interface {
       projectForm.reset();
       overlay.style.display = 'none';
     }
+
+    taskInfoModal.onclose = () => {
+      taskInfoModal.close();
+      overlay.style.display = 'none';
+    }
   }
 
   static initModalButtons() {
@@ -45,6 +51,7 @@ class Interface {
     const closeAddProjectButton = document.getElementById('close-project-modal-btn');
     const submitTaskButton = document.getElementById('task-submit-btn');
     const submitProjectButton = document.getElementById('project-submit-btn');
+    const closeTaskInfoButton = document.getElementById('close-task-info-btn');
     const taskForm = document.getElementById('task-form');
     const projectForm = document.getElementById('project-form');
 
@@ -53,6 +60,7 @@ class Interface {
     closeAddTaskButton.addEventListener('click', Interface.closeAddTaskModal);
     addProjectButton.addEventListener('click', Interface.openAddProjectModal);
     closeAddProjectButton.addEventListener('click', Interface.closeAddProjectModal);
+    closeTaskInfoButton.addEventListener('click', Interface.closeTaskPanelModal)
 
     submitTaskButton.addEventListener('click', (e) => {
       const isValid = taskForm.checkValidity();
@@ -113,7 +121,6 @@ class Interface {
     taskButtons.forEach((taskButton) => 
       taskButton.addEventListener('click', Interface.handleTaskButton)
     );
-  
   }
 
 //----------------------------------- MODAL METHODS -------------------------------------//
@@ -157,6 +164,11 @@ class Interface {
   static closeAddProjectModal() {
     const addProjectModal = document.getElementById('project-modal');
     addProjectModal.close();
+  }
+
+  static closeTaskPanelModal() {
+    const taskInfoModal = document.getElementById('task-info-modal');
+    taskInfoModal.close();
   }
 
 //------------------------------- LOAD DASHBOARD METHOD ---------------------------------//
@@ -316,8 +328,26 @@ class Interface {
   }
 
   static openTask(taskTitle, taskButton) {
-    console.log(taskTitle);
-    console.log(taskButton);
+    const taskInfoModal = document.getElementById('task-info-modal');
+    const taskTitleHeader = document.getElementById('task-info-title');
+    const taskDescriptionInfo = document.getElementById('task-info-description');
+    const taskPriorityInfo = document.getElementById('task-info-priority');
+    const taskDueDateInfo = document.getElementById('task-info-due-date');
+    const taskProjectInfo = document.getElementById('task-info-project');  
+
+    const taskProject = document.getElementById('project-title').textContent;
+    const taskDescription = Storage.getToDoList().getProject(taskProject).getTask(taskTitle).getDescription();
+    const taskPriority = Storage.getToDoList().getProject(taskProject).getTask(taskTitle).getPriority();
+    const taskDueDate = Storage.getToDoList().getProject(taskProject).getTask(taskTitle).getDueDate();
+
+    taskTitleHeader.textContent = `Task: ${taskTitle}`;
+    taskDescriptionInfo.textContent = `Description: ${taskDescription}`;
+    taskPriorityInfo.textContent = `Priority: ${taskPriority}`;
+    taskDueDateInfo.textContent = `Due Date: ${taskDueDate}`;
+    taskProjectInfo.textContent = `Project: ${taskProject}`;
+
+    taskInfoModal.showModal();
+    overlay.style.display = 'block';
   }
 
   static openAllTasks() {

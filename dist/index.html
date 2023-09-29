@@ -64,7 +64,7 @@
       <label for="task-title-input">Task Title:</label>
       <input type="text" id="task-title-input" name="task-title-input" placeholder="Task Title" maxlength="30" required/>
       <label for="task-description">Task Description:</label>
-      <textarea id="task-description" name="task-description" rows="6" placeholder="Enter task description here..."></textarea>
+      <textarea id="task-description" name="task-description" rows="6" placeholder="Enter task description here..." maxlength="120"></textarea>
       <label for="task-date">Task Due Date:</label>
       <input type="date" id="task-date" name="task-date" required/>
       <label for="task-priority">Task Priority Level:</label>
@@ -93,12 +93,15 @@
     </form>
   </dialog>
 
-  <dialog id="task-info">
-    <h1 id="task-title-header"></h1>
-    <div id="info-description"></div>
-    <div id="info-priority"></div>
-    <div id="info-due-date"></div>
-    <div id="info-project"></div>
+  <dialog id="task-info-modal">
+    <div class="task-info-modal-header">
+      <h1 id="task-info-title"></h1>
+      <button id="close-task-info-btn"><i class="fa-solid fa-x"></i></button>
+    </div>
+    <div id="task-info-description"></div>
+    <div id="task-info-priority"></div>
+    <div id="task-info-due-date"></div>
+    <div id="task-info-project"></div>
   </dialog>
 
   <footer class="footer">
