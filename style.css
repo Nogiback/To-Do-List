@@ -234,6 +234,13 @@ header {
   padding: 0;
 }
 
+.trash-btn,
+.edit-btn {
+  padding: 0;
+  margin: 0;
+  height: 0;
+}
+
 .fa-pen-to-square:hover {
   color: rgb(18, 179, 0);
 }
