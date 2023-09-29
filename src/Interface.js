@@ -1,6 +1,5 @@
-import { format } from 'date-fns'
-import Task from './Task'
-import ToDoList from './ToDoList';
+import { format } from 'date-fns';
+import Task from './Task';
 import Project from './Project';
 import Storage from './Storage';
 
@@ -85,15 +84,11 @@ class Interface {
 
   static initProjectButtons() {
     const inboxButton = document.getElementById('inbox-btn');
-    //daily tasks button (implement later)
-    //weekly tasks button (implement later)
     const userProjectButtons = document.querySelectorAll('.user-project-btn');
     const userProjectDeleteButtons = document.querySelectorAll('.user-project-delete-btn');
 
     //Project button event listeners
     inboxButton.addEventListener('click', Interface.handleProjectButton);
-    //event listener for daily tasks (implement later)
-    //event listener for weekly tasks (implement later)
 
     userProjectButtons.forEach((projectButton) => 
       projectButton.addEventListener('click', Interface.handleProjectButton)
@@ -212,13 +207,17 @@ class Interface {
 
   static handleTaskButton(e) {
     //from event listener on task bar
-    //complete task
+    //open task info panel
     //edit task > edit modal
-    //change priority
     //delete task
     if (e.target.getAttribute('id') === 'task-label') {
-      Interface.openTask(e.target.textContent, this);
+      Interface.openTask(e.target.textContent);
     }
+
+    if(e.target.classList.contains('fa-trash')) {
+      Interface.deleteTask(e.target.parentNode.parentNode.previousElementSibling.children[1].textContent);
+    }
+    
   }
 
 //------------------------------------ TASK METHODS -------------------------------------//
@@ -241,7 +240,7 @@ class Interface {
     const taskProjectField = document.getElementById('project-select');
     const taskTitle = taskTitleField.value;
     const taskDescription = taskDescField.value;
-    const taskDueDate = taskDateField.value;
+    const taskDueDate = format(new Date(taskDateField.value), 'dd/MM/yyyy');
     const taskPriority = taskPriorityField.value;
     const taskProject = taskProjectField.value;
 
@@ -262,9 +261,11 @@ class Interface {
     }
   }
 
-  static deleteTask() {
-    //delete task from screen
-    //delete task from storage
+  static deleteTask(taskTitle) {
+    const taskProjectTitle = document.getElementById('project-title').textContent;
+    Storage.deleteTask(taskProjectTitle, taskTitle);
+    Interface.clearProjectDashboard();
+    Interface.loadProjectDashboard(taskProjectTitle);
   }
 
   static createTask(taskTitle, taskDueDate, taskPriority) {
@@ -327,7 +328,7 @@ class Interface {
     projectDashboard.appendChild(taskBar);
   }
 
-  static openTask(taskTitle, taskButton) {
+  static openTask(taskTitle) {
     const taskInfoModal = document.getElementById('task-info-modal');
     const taskTitleHeader = document.getElementById('task-info-title');
     const taskDescriptionInfo = document.getElementById('task-info-description');
@@ -335,16 +336,16 @@ class Interface {
     const taskDueDateInfo = document.getElementById('task-info-due-date');
     const taskProjectInfo = document.getElementById('task-info-project');  
 
-    const taskProject = document.getElementById('project-title').textContent;
-    const taskDescription = Storage.getToDoList().getProject(taskProject).getTask(taskTitle).getDescription();
-    const taskPriority = Storage.getToDoList().getProject(taskProject).getTask(taskTitle).getPriority();
-    const taskDueDate = Storage.getToDoList().getProject(taskProject).getTask(taskTitle).getDueDate();
+    const taskProjectTitle = document.getElementById('project-title').textContent;
+    const taskDescription = Storage.getToDoList().getProject(taskProjectTitle).getTask(taskTitle).getDescription();
+    const taskPriority = Storage.getToDoList().getProject(taskProjectTitle).getTask(taskTitle).getPriority();
+    const taskDueDate = Storage.getToDoList().getProject(taskProjectTitle).getTask(taskTitle).getDueDate();
 
     taskTitleHeader.textContent = `Task: ${taskTitle}`;
     taskDescriptionInfo.textContent = `Description: ${taskDescription}`;
     taskPriorityInfo.textContent = `Priority: ${taskPriority}`;
     taskDueDateInfo.textContent = `Due Date: ${taskDueDate}`;
-    taskProjectInfo.textContent = `Project: ${taskProject}`;
+    taskProjectInfo.textContent = `Project: ${taskProjectTitle}`;
 
     taskInfoModal.showModal();
     overlay.style.display = 'block';
@@ -364,7 +365,7 @@ class Interface {
     });
   }
 
-  static addProject(e) {
+  static addProject() {
     const projectTitleField = document.getElementById('project-title-input');
     const projectTitle = projectTitleField.value;
 
@@ -440,11 +441,6 @@ class Interface {
   static clearUserProjectList() {
     const userProjectsList = document.getElementById('user-projects-list');
     userProjectsList.textContent = '';
-  }
-
-  static clearTasks() {
-    const tasksList = document.getElementById('tasks-list');
-    tasksList.textContent = '';
   }
 }
 
