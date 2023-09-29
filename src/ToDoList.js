@@ -1,10 +1,10 @@
 import { compareAsc, toDate } from 'date-fns'
 import Project from './Project'
-import Task from './Task'
 
 class ToDoList {
   constructor() {
     this.projects = [];
+    this.projects.push(new Project('Inbox'));
   }
 
   setProjects(projects) {

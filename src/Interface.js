@@ -13,7 +13,7 @@ class Interface {
     Interface.initModals();
     Interface.loadProjects();
     Interface.initProjectButtons();
-    //Interface.openProject('Inbox', document.getElementById('inbox-btn'));
+    Interface.openProject('Inbox', document.getElementById('inbox-btn'));
   }
 
   static initModals() {
@@ -68,7 +68,7 @@ class Interface {
       const isValid = projectForm.checkValidity();
       if(!isValid) {
         projectForm.reportValidity();
-      } else {
+      } else { 
         e.preventDefault();
         Interface.addProject();
       }
@@ -98,8 +98,22 @@ class Interface {
   }
 
   static initTaskButtons() {
-    //grab tasks buttons from DOM
-    //loop through and add event listeners to each button type (complete task,edit, change priority, delete)
+    const editButtons = document.querySelectorAll('.edit-btn');
+    const deleteButtons = document.querySelectorAll('.trash-btn');
+    const taskButtons = document.querySelectorAll('#task-label');
+
+    editButtons.forEach((editButton) => 
+      editButton.addEventListener('click', Interface.handleTaskButton)
+    );
+
+    deleteButtons.forEach((deleteButton) => 
+      deleteButton.addEventListener('click', Interface.handleTaskButton) 
+    );
+
+    taskButtons.forEach((taskButton) => 
+      taskButton.addEventListener('click', Interface.handleTaskButton)
+    );
+  
   }
 
 //----------------------------------- MODAL METHODS -------------------------------------//
@@ -111,13 +125,8 @@ class Interface {
     const overlay = document.getElementById('overlay');
     const projectSelector = document.getElementById('project-select');
     projectSelector.textContent = '';
-    const inboxOption = document.createElement('option');
-    inboxOption.value = 'Inbox';
-    inboxOption.textContent = 'Inbox';
-    projectSelector.appendChild(inboxOption);
-
-    taskTitleField.focus();
     
+    //Loading projects from Storage and creating project options list
     Storage.getToDoList().getProjects().forEach((project) => {
       const projectOption = document.createElement('option');
       projectOption.textContent = project.getTitle();
@@ -126,6 +135,7 @@ class Interface {
     });
 
     addTaskModal.showModal();
+    taskTitleField.focus();
     overlay.style.display = 'block';
   }
 
@@ -138,9 +148,9 @@ class Interface {
     const addProjectModal = document.getElementById('project-modal');
     const projectTitleField = document.getElementById('project-title-input');
     const overlay = document.getElementById('overlay');
-    projectTitleField.focus();
-
+  
     addProjectModal.showModal();
+    projectTitleField.focus();
     overlay.style.display = 'block';
   }
 
@@ -160,7 +170,7 @@ class Interface {
     projectDashboard.appendChild(projectTitleHeader);
 
     Interface.loadTasks(projectTitle);
-    //Interface.initTaskButtons();
+    Interface.initTaskButtons();
   }
 
 //------------------------------- BUTTON HANDLER METHODS --------------------------------//
@@ -194,6 +204,9 @@ class Interface {
     //edit task > edit modal
     //change priority
     //delete task
+    if (e.target.getAttribute('id') === 'task-label') {
+      Interface.openTask(e.target.textContent, this);
+    }
   }
 
 //------------------------------------ TASK METHODS -------------------------------------//
@@ -220,10 +233,21 @@ class Interface {
     const taskPriority = taskPriorityField.value;
     const taskProject = taskProjectField.value;
 
+    if (Storage.getToDoList().getProject(taskProject).checkTask(taskTitle)) {
+      taskTitleField.value = '';
+      alert('You cannot have duplicate task names!');
+      taskTitleField.focus();
+      return;
+    }
+
     Interface.closeAddTaskModal();
     Storage.addTask(taskProject, new Task(taskTitle, taskDescription, taskDueDate, taskPriority));
-    Interface.openProject(taskProject, document.getElementById(`user-project-${taskProject}`));
-    //Interface.createTask(taskTitle, taskDueDate, taskPriority);
+
+    if (taskProject === 'Inbox') {
+      Interface.openProject(taskProject, document.getElementById('inbox-btn'));
+    } else {
+      Interface.openProject(taskProject, document.getElementById(`user-project-${taskProject}`));
+    }
   }
 
   static deleteTask() {
@@ -291,8 +315,9 @@ class Interface {
     projectDashboard.appendChild(taskBar);
   }
 
-  static openTask(taskTitle, task) {
-    //opens div on screen that shows task info
+  static openTask(taskTitle, taskButton) {
+    console.log(taskTitle);
+    console.log(taskButton);
   }
 
   static openAllTasks() {
@@ -303,13 +328,22 @@ class Interface {
  
   static loadProjects() {
     Storage.getToDoList().getProjects().forEach((project) => {
-      Interface.createProjectButton(project.title);
+      if (project.title !== 'Inbox') {
+        Interface.createProjectButton(project.title);
+      }
     });
   }
 
-  static addProject() {
+  static addProject(e) {
     const projectTitleField = document.getElementById('project-title-input');
     const projectTitle = projectTitleField.value;
+
+    if (Storage.getToDoList().checkProject(projectTitle)) {
+      projectTitleField.value = '';
+      alert('You cannot have duplicate project names!');
+      projectTitleField.focus();
+      return;
+    }
 
     Interface.closeAddProjectModal();
     Storage.addProject(new Project(projectTitle));
