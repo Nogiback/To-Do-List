@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', Interface.initHomepage);
 
 console.log(Storage.getToDoList());
 
-document.addEventListener('click', (e) => {
-  console.log(e.target);
-});
+// document.addEventListener('click', (e) => {
+//   console.log(e.target);
+// });
 
 //localStorage.clear();
