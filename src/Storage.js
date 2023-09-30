@@ -73,6 +73,12 @@ class Storage {
     toDoList.getProject(projectTitle).getTask(taskTitle).setPriority(newPriority);
     Storage.saveToDoList(toDoList);
   }
+
+  static updateTaskChecked(projectTitle, taskTitle, newChecked) {
+    const toDoList = Storage.getToDoList();
+    toDoList.getProject(projectTitle).getTask(taskTitle).setChecked(newChecked);
+    Storage.saveToDoList(toDoList);
+  }
 }
 
 export default Storage;

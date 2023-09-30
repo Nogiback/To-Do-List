@@ -104,6 +104,11 @@ class Interface {
     const editButtons = document.querySelectorAll('.edit-btn');
     const deleteButtons = document.querySelectorAll('.trash-btn');
     const taskButtons = document.querySelectorAll('#task-label');
+    const taskCheckboxes = document.querySelectorAll('#task-complete-checkbox');
+
+    taskCheckboxes.forEach((taskCheckbox) => 
+      taskCheckbox.addEventListener('change', Interface.handleTaskButton)
+    );
 
     editButtons.forEach((editButton) => 
       editButton.addEventListener('click', Interface.handleTaskButton)
@@ -214,10 +219,24 @@ class Interface {
       Interface.openTask(e.target.textContent);
     }
 
-    if(e.target.classList.contains('fa-trash')) {
+    if (e.target.classList.contains('fa-trash')) {
       Interface.deleteTask(e.target.parentNode.parentNode.previousElementSibling.children[1].textContent);
     }
     
+    if (e.target.getAttribute('id') === 'task-complete-checkbox') {
+      const taskTitle = e.target.nextElementSibling.textContent;
+      const projectTitle = document.getElementById('project-title').textContent;
+      let taskChecked = null;
+
+      if (this.checked === true) {
+        taskChecked = true;
+      } else if (this.checked === false) {
+        taskChecked = false;
+      }
+
+      Storage.updateTaskChecked(projectTitle, taskTitle, taskChecked);
+    }
+
   }
 
 //------------------------------------ TASK METHODS -------------------------------------//
@@ -228,7 +247,7 @@ class Interface {
       .getProject(projectTitle)
       .getTasks()
       .forEach((task) => {
-        Interface.createTask(task.title, task.dueDate, task.priority);
+        Interface.createTask(task.title, task.dueDate, task.priority, task.checked);
       });
   }
 
@@ -243,6 +262,7 @@ class Interface {
     const taskDueDate = format(new Date(taskDateField.value), 'dd/MM/yyyy');
     const taskPriority = taskPriorityField.value;
     const taskProject = taskProjectField.value;
+    const taskChecked = false;
 
     if (Storage.getToDoList().getProject(taskProject).checkTask(taskTitle)) {
       taskTitleField.value = '';
@@ -252,7 +272,7 @@ class Interface {
     }
 
     Interface.closeAddTaskModal();
-    Storage.addTask(taskProject, new Task(taskTitle, taskDescription, taskDueDate, taskPriority));
+    Storage.addTask(taskProject, new Task(taskTitle, taskDescription, taskDueDate, taskPriority, taskChecked));
 
     if (taskProject === 'Inbox') {
       Interface.openProject(taskProject, document.getElementById('inbox-btn'));
@@ -268,7 +288,7 @@ class Interface {
     Interface.loadProjectDashboard(taskProjectTitle);
   }
 
-  static createTask(taskTitle, taskDueDate, taskPriority) {
+  static createTask(taskTitle, taskDueDate, taskPriority, taskChecked) {
     const projectDashboard = document.getElementById('project-dashboard');
 
     //Create taskbar
@@ -284,6 +304,13 @@ class Interface {
     completeCheckbox.setAttribute('type', 'checkbox');
     completeCheckbox.setAttribute('id', 'task-complete-checkbox');
     completeCheckbox.setAttribute('name', 'task-complete-checkbox');
+
+    if (taskChecked === true) {
+      completeCheckbox.checked = true;
+    } else {
+      completeCheckbox.checked = false;
+    }
+
     taskLabel.setAttribute('id', 'task-label');
     taskLabel.textContent = `${taskTitle}`;
 

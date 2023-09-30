@@ -1,9 +1,10 @@
 class Task {
-  constructor(title, description, dueDate, priority) {
+  constructor(title, description, dueDate, priority, checked) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
+    this.checked = checked;
   }
 
   setTitle(title) {
@@ -36,6 +37,14 @@ class Task {
 
   getPriority() {
     return this.priority;
+  }
+
+  setChecked(checked) {
+    this.checked = checked;
+  }
+
+  getChecked() {
+    return this.checked;
   }
 
 }
