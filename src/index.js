@@ -1,7 +1,6 @@
 import Interface from "./Interface";
 import Storage from "./Storage";
 
-Storage.getToDoList()
 document.addEventListener('DOMContentLoaded', Interface.initHomepage);
 
 

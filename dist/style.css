@@ -272,7 +272,8 @@ header {
 
 #task-modal,
 #project-modal,
-#task-info-modal {
+#task-info-modal,
+#edit-task-modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -284,7 +285,8 @@ header {
   color: var(--darkblue);
 }
 
-#task-modal {
+#task-modal,
+#edit-task-modal {
   width: 600px;
   height: 400px;
 }
@@ -310,7 +312,8 @@ header {
 
 .task-modal-header,
 .project-modal-header,
-.task-info-modal-header {
+.task-info-modal-header,
+.edit-task-modal-header {
   display: flex;
   justify-content: space-between;
   font-weight: 700;;
@@ -318,7 +321,8 @@ header {
 } 
 
 .task-modal-header,
-.project-modal-header {
+.project-modal-header,
+.edit-task-modal-header {
   font-size: 2rem;
   margin-bottom: 2rem;
 }
@@ -329,11 +333,12 @@ header {
 }
 
 #task-info-description {
-  text-wrap:wrap;
+  text-wrap: wrap;
 }
 
 #task-form,
-#project-form {
+#project-form,
+#edit-task-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -344,6 +349,9 @@ header {
 #task-form input,
 #task-form select,
 #task-form textarea,
+#edit-task-form input,
+#edit-task-form select,
+#edit-task-form textarea,
 #project-form input {
   max-width: 260px;
   margin-bottom: 1rem;
@@ -351,6 +359,7 @@ header {
   color: var(--darkblue);
   background-color: var(--lighterblue);
   border: 2px solid var(--darkblue);
+  resize: none;
 }
 
 #project-form input {
@@ -359,17 +368,16 @@ header {
   font-size: 1.5rem;
 }
 
-#task-form textarea {
-  resize: none;
-}
-
 #task-form label,
+#edit-task-form label,
 #project-form label {
   max-width: 300px;
   margin-bottom: 0.3rem;
 }
 
 #task-submit-btn,
+#edit-task-submit-btn,
+#edit-task-cancel-btn,
 #project-submit-btn {
   border-radius: 20px;
   background-color: var(--darkblue);
@@ -381,17 +389,24 @@ header {
   position: relative;
 }
 
+#edit-task-cancel-btn { 
+  margin: 1rem;
+}
+
 #task-submit-btn:hover,
+#edit-task-submit-btn:hover,
+#edit-task-cancel-btn:hover,
 #project-submit-btn:hover {
   color: var(--darkblue);
   background-color: var(--lighterblue);
 }
 
 #task-submit-btn:active,
+#edit-task-submit-btn:active,
+#edit-task-cancel-btn:active,
 #project-submit-btn:active {
   top: 2px;
 }
-
 
 .overlay {
   display: none;

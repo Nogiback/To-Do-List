@@ -19,7 +19,7 @@ class Interface {
     const addTaskModal = document.getElementById('task-modal');
     const addProjectModal = document.getElementById('project-modal');
     const taskInfoModal = document.getElementById('task-info-modal');
-    //edit task modal
+    const editTaskModal = document.getElementById('edit-task-modal');
     const taskForm = document.getElementById('task-form');
     const projectForm = document.getElementById('project-form');
     const overlay = document.getElementById('overlay');
@@ -40,6 +40,11 @@ class Interface {
       taskInfoModal.close();
       overlay.style.display = 'none';
     }
+
+    editTaskModal.onclose = () => {
+      editTaskModal.close();
+      overlay.style.display = 'none';
+    }
   }
 
   static initModalButtons() {
@@ -51,15 +56,23 @@ class Interface {
     const submitTaskButton = document.getElementById('task-submit-btn');
     const submitProjectButton = document.getElementById('project-submit-btn');
     const closeTaskInfoButton = document.getElementById('close-task-info-btn');
+    const saveTaskButton = document.getElementById('edit-task-submit-btn');
+    const cancelEditTaskButton = document.getElementById('edit-task-cancel-btn');
+    const closeEditTaskButton = document.getElementById('close-edit-task-modal-btn');
+
+    //Modal forms
     const taskForm = document.getElementById('task-form');
     const projectForm = document.getElementById('project-form');
+    const editTaskForm = document.getElementById('edit-task-form');
 
     //Modal event listeners
     addTaskButton.addEventListener('click', Interface.openAddTaskModal);
     closeAddTaskButton.addEventListener('click', Interface.closeAddTaskModal);
     addProjectButton.addEventListener('click', Interface.openAddProjectModal);
     closeAddProjectButton.addEventListener('click', Interface.closeAddProjectModal);
-    closeTaskInfoButton.addEventListener('click', Interface.closeTaskPanelModal)
+    closeTaskInfoButton.addEventListener('click', Interface.closeTaskPanelModal);
+    cancelEditTaskButton.addEventListener('click', Interface.closeEditTaskModal);
+    closeEditTaskButton.addEventListener('click', Interface.closeEditTaskModal);
 
     submitTaskButton.addEventListener('click', (e) => {
       const isValid = taskForm.checkValidity();
@@ -67,7 +80,7 @@ class Interface {
         taskForm.reportValidity();
       } else {
         e.preventDefault();
-       Interface.addTask();
+        Interface.addTask();
       }
     });
 
@@ -80,6 +93,17 @@ class Interface {
         Interface.addProject();
       }
     });
+
+    saveTaskButton.addEventListener('click', (e) => {
+      const isValid = editTaskForm.checkValidity();
+      if(!isValid) {
+        editTaskForm.reportValidity();
+      } else { 
+        e.preventDefault();
+        Interface.updateTask();
+      }
+    });
+
   }
 
   static initProjectButtons() {
@@ -171,6 +195,22 @@ class Interface {
     taskInfoModal.close();
   }
 
+  static openEditTaskModal() {
+    const editTaskModal = document.getElementById('edit-task-modal');
+    const editTaskTitleField = document.getElementById('new-task-title-input');
+    const overlay = document.getElementById('overlay');
+    
+
+    editTaskModal.showModal();
+    editTaskTitleField.focus();
+    overlay.style.display = 'block';
+  }
+
+  static closeEditTaskModal() {
+    const editTaskModal = document.getElementById('edit-task-modal');
+    editTaskModal.close();
+  }
+
 //------------------------------- LOAD DASHBOARD METHOD ---------------------------------//
 
   static loadProjectDashboard(projectTitle) {
@@ -211,18 +251,22 @@ class Interface {
   }
 
   static handleTaskButton(e) {
-    //from event listener on task bar
-    //open task info panel
-    //edit task > edit modal
-    //delete task
+    if (e.target.classList.contains('fa-pen-to-square')) {
+      //need to send saved info to edit task modal to display in inputs
+      Interface.openEditTaskModal();
+    }
+
+    //Opens task info panel modal to display task details
     if (e.target.getAttribute('id') === 'task-label') {
       Interface.openTask(e.target.textContent);
     }
 
+    //Delete task handler
     if (e.target.classList.contains('fa-trash')) {
       Interface.deleteTask(e.target.parentNode.parentNode.previousElementSibling.children[1].textContent);
     }
     
+    //Updates the checked/completed status of the task and saves into memory
     if (e.target.getAttribute('id') === 'task-complete-checkbox') {
       const taskTitle = e.target.nextElementSibling.textContent;
       const projectTitle = document.getElementById('project-title').textContent;
@@ -252,6 +296,7 @@ class Interface {
   }
 
   static addTask() {
+    //Grabbing task input fields and assigning values to variables
     const taskTitleField = document.getElementById('task-title-input');
     const taskDescField = document.getElementById('task-description');
     const taskDateField = document.getElementById('task-date');
@@ -264,6 +309,7 @@ class Interface {
     const taskProject = taskProjectField.value;
     const taskChecked = false;
 
+      //Checking if task name already exists
     if (Storage.getToDoList().getProject(taskProject).checkTask(taskTitle)) {
       taskTitleField.value = '';
       alert('You cannot have duplicate task names!');
@@ -282,6 +328,7 @@ class Interface {
   }
 
   static deleteTask(taskTitle) {
+    //FUTURE IDEA: check if taskProjectTitle is today or this week, if so, also delete from today or this week projects
     const taskProjectTitle = document.getElementById('project-title').textContent;
     Storage.deleteTask(taskProjectTitle, taskTitle);
     Interface.clearProjectDashboard();
@@ -304,15 +351,15 @@ class Interface {
     completeCheckbox.setAttribute('type', 'checkbox');
     completeCheckbox.setAttribute('id', 'task-complete-checkbox');
     completeCheckbox.setAttribute('name', 'task-complete-checkbox');
+    taskLabel.setAttribute('id', 'task-label');
+    taskLabel.textContent = `${taskTitle}`;
 
+    //if the task was checked off before, it will load in already checked
     if (taskChecked === true) {
       completeCheckbox.checked = true;
     } else {
       completeCheckbox.checked = false;
     }
-
-    taskLabel.setAttribute('id', 'task-label');
-    taskLabel.textContent = `${taskTitle}`;
 
     //Create right panel with due date, priority, edit and delete buttons
     const rightPanel = document.createElement('div');
@@ -376,10 +423,6 @@ class Interface {
 
     taskInfoModal.showModal();
     overlay.style.display = 'block';
-  }
-
-  static openAllTasks() {
-    //load all tasks
   }
 
 //---------------------------------- PROJECT METHODS ------------------------------------//
