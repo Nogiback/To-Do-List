@@ -62,9 +62,31 @@
       <label for="project-select">Project:</label>
       <select name="project-select" id="project-select">
         <!-- Project Options -->
-        <!-- <option value="Inbox">Inbox</option> -->
       </select>
       <button id="task-submit-btn" value="default">Add Task</button>
+    </form>
+  </dialog>
+
+  <dialog id="edit-task-modal">
+    <div class="edit-task-modal-header">
+      <h1>Edit Task</h1>
+      <button id="close-edit-task-modal-btn"><i class="fa-solid fa-x"></i></button>
+    </div>
+    <form action="/" method="get" id="edit-task-form">
+      <label for="new-task-title-input">Task Title:</label>
+      <input type="text" id="new-task-title-input" name="new-task-title-input" maxlength="30" required/>
+      <label for="new-task-description">Task Description:</label>
+      <textarea id="new-task-description" name="new-task-description" rows="6" maxlength="120"></textarea>
+      <label for="new-task-date">Task Due Date:</label>
+      <input type="date" id="new-task-date" name="new-task-date" required/>
+      <label for="new-task-priority">Task Priority Level:</label>
+      <select name="new-task-priority" id="new-task-priority">
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+      <button id="edit-task-cancel-btn">Cancel</button>
+      <button id="edit-task-submit-btn" value="default">Save Task</button>
     </form>
   </dialog>
 
