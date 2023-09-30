@@ -3,13 +3,12 @@ import Storage from "./Storage";
 
 document.addEventListener('DOMContentLoaded', Interface.initHomepage);
 
-
 // Testing
 
-console.log(Storage.getToDoList());
+// console.log(Storage.getToDoList());
 
-document.addEventListener('click', (e) => {
-  console.log(e.target);
-});
+// document.addEventListener('click', (e) => {
+//   console.log(e.target);
+// });
 
 //localStorage.clear();

@@ -71,8 +71,11 @@ class Interface {
     addProjectButton.addEventListener('click', Interface.openAddProjectModal);
     closeAddProjectButton.addEventListener('click', Interface.closeAddProjectModal);
     closeTaskInfoButton.addEventListener('click', Interface.closeTaskPanelModal);
-    cancelEditTaskButton.addEventListener('click', Interface.closeEditTaskModal);
     closeEditTaskButton.addEventListener('click', Interface.closeEditTaskModal);
+    cancelEditTaskButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      Interface.closeEditTaskModal(e);
+    });
 
     submitTaskButton.addEventListener('click', (e) => {
       const isValid = taskForm.checkValidity();
@@ -195,11 +198,18 @@ class Interface {
     taskInfoModal.close();
   }
 
-  static openEditTaskModal() {
+  static openEditTaskModal(taskTitle, taskDescription, taskPriority, taskDueDate) {
     const editTaskModal = document.getElementById('edit-task-modal');
+    editTaskModal.setAttribute('data-edit-task', `${taskTitle}`);
     const editTaskTitleField = document.getElementById('new-task-title-input');
+    const editTaskDescField = document.getElementById('new-task-description');
+    const editTaskPriorityField = document.getElementById('new-task-priority');
+    const editTaskDateField = document.getElementById('new-task-date');
     const overlay = document.getElementById('overlay');
-    
+    editTaskTitleField.value = taskTitle;
+    editTaskDescField.value = taskDescription;
+    editTaskPriorityField.value = taskPriority;
+    editTaskDateField.value = taskDueDate;
 
     editTaskModal.showModal();
     editTaskTitleField.focus();
@@ -230,30 +240,39 @@ class Interface {
   static handleProjectButton(e) {
     let projectTitle = '';
 
+    //Opens user project on click
     if (e.target.classList.contains('user-project-btn')){
       projectTitle = this.textContent;
       Interface.openProject(projectTitle, this);
       return;
     } 
     
+    //Deletes project if 'X' is clicked
     if (e.target.classList.contains('user-project-delete-btn')){
       projectTitle = this.getAttribute('data-project');
       Interface.deleteProject(projectTitle, e.target.previousElementSibling);
       return;
     }
 
+    //Opens 'Inbox' project on click
     if (e.target.getAttribute('id') === 'inbox-btn') {
       projectTitle = 'Inbox';
       Interface.openProject(projectTitle, this);
       return;
     }
-
   }
 
   static handleTaskButton(e) {
+
+    //Opens edit task modal with task details pre-filled inside inputs
     if (e.target.classList.contains('fa-pen-to-square')) {
-      //need to send saved info to edit task modal to display in inputs
-      Interface.openEditTaskModal();
+      const taskTitle = e.target.parentNode.parentNode.previousElementSibling.children[1].textContent;
+      const taskProjectTitle = document.getElementById('project-title').textContent;
+      const taskDescription = Storage.getToDoList().getProject(taskProjectTitle).getTask(taskTitle).getDescription();
+      const taskPriority = Storage.getToDoList().getProject(taskProjectTitle).getTask(taskTitle).getPriority();
+      const taskDueDate = Storage.getToDoList().getProject(taskProjectTitle).getTask(taskTitle).getDueDate();
+      
+      Interface.openEditTaskModal(taskTitle, taskDescription, taskPriority, taskDueDate);
     }
 
     //Opens task info panel modal to display task details
@@ -304,7 +323,7 @@ class Interface {
     const taskProjectField = document.getElementById('project-select');
     const taskTitle = taskTitleField.value;
     const taskDescription = taskDescField.value;
-    const taskDueDate = format(new Date(taskDateField.value), 'dd/MM/yyyy');
+    const taskDueDate = taskDateField.value;
     const taskPriority = taskPriorityField.value;
     const taskProject = taskProjectField.value;
     const taskChecked = false;
@@ -328,7 +347,6 @@ class Interface {
   }
 
   static deleteTask(taskTitle) {
-    //FUTURE IDEA: check if taskProjectTitle is today or this week, if so, also delete from today or this week projects
     const taskProjectTitle = document.getElementById('project-title').textContent;
     Storage.deleteTask(taskProjectTitle, taskTitle);
     Interface.clearProjectDashboard();
@@ -372,6 +390,7 @@ class Interface {
     const trashButtonIcon = document.createElement('i');
     rightPanel.classList.add('right-panel');
     taskDateLabel.classList.add('task-bar-due-date');
+    taskDueDate = format(new Date(taskDueDate), 'dd/MM/yyyy');
     taskDateLabel.textContent = `${taskDueDate}`;
     taskPriorityLabel.classList.add('task-bar-priority');
     taskPriorityIcon.classList.add('fa-solid', 'fa-flag');
@@ -423,6 +442,44 @@ class Interface {
 
     taskInfoModal.showModal();
     overlay.style.display = 'block';
+  }
+
+  static updateTask() {
+    //Grabbing new task input fields and assigning values to variables
+    const editTaskModal = document.getElementById('edit-task-modal');
+    const editTaskTitleField = document.getElementById('new-task-title-input');
+    const editTaskDescField = document.getElementById('new-task-description');
+    const editTaskDateField = document.getElementById('new-task-date');
+    const editTaskPriorityField = document.getElementById('new-task-priority');
+    const oldTaskTitle = editTaskModal.getAttribute('data-edit-task');
+    const newTaskTitle = editTaskTitleField.value;
+    const newTaskDescription = editTaskDescField.value;
+    const newTaskDueDate = editTaskDateField.value;
+    const newTaskPriority = editTaskPriorityField.value;
+    const taskProject = document.getElementById('project-title').textContent;
+ 
+    //Checking if task name already exists
+    if (oldTaskTitle !== newTaskTitle) {
+      if (Storage.getToDoList().getProject(taskProject).checkTask(newTaskTitle)) {
+        editTaskTitleField.value = '';
+        alert('You cannot have duplicate task names!');
+        editTaskTitleField.focus();
+        return;
+      }
+    }
+    console.log(oldTaskTitle);
+    console.log(newTaskTitle);
+    Interface.closeEditTaskModal();
+    Storage.updateTaskDescription(taskProject, oldTaskTitle, newTaskDescription);
+    Storage.updateTaskDueDate(taskProject, oldTaskTitle, newTaskDueDate);
+    Storage.updateTaskPriority(taskProject, oldTaskTitle, newTaskPriority);
+    Storage.updateTaskTitle(taskProject, oldTaskTitle, newTaskTitle);
+ 
+    if (taskProject === 'Inbox') {
+      Interface.openProject(taskProject, document.getElementById('inbox-btn'));
+    } else {
+      Interface.openProject(taskProject, document.getElementById(`user-project-${taskProject}`));
+    }
   }
 
 //---------------------------------- PROJECT METHODS ------------------------------------//
