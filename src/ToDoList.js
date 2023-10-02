@@ -1,9 +1,9 @@
-import Project from "./Project";
+import Project from './Project';
 
 class ToDoList {
   constructor() {
     this.projects = [];
-    this.projects.push(new Project("Inbox"));
+    this.projects.push(new Project('Inbox'));
   }
 
   setProjects(projects) {
