@@ -467,8 +467,7 @@ class Interface {
         return;
       }
     }
-    console.log(oldTaskTitle);
-    console.log(newTaskTitle);
+
     Interface.closeEditTaskModal();
     Storage.updateTaskDescription(taskProject, oldTaskTitle, newTaskDescription);
     Storage.updateTaskDueDate(taskProject, oldTaskTitle, newTaskDueDate);
