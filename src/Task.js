@@ -46,7 +46,6 @@ class Task {
   getChecked() {
     return this.checked;
   }
-
 }
 
 export default Task;

@@ -1,9 +1,9 @@
-import Project from './Project'
+import Project from "./Project";
 
 class ToDoList {
   constructor() {
     this.projects = [];
-    this.projects.push(new Project('Inbox'));
+    this.projects.push(new Project("Inbox"));
   }
 
   setProjects(projects) {
@@ -23,17 +23,20 @@ class ToDoList {
   }
 
   addProject(newProject) {
-    if (this.projects.find((project) => project.getTitle() === newProject.title)) {
+    if (
+      this.projects.find((project) => project.getTitle() === newProject.title)
+    ) {
       return;
     }
     this.projects.push(newProject);
   }
 
   deleteProject(projectTitle) {
-    const projectToDelete = this.projects.find((project) => project.getTitle() === projectTitle);
+    const projectToDelete = this.projects.find(
+      (project) => project.getTitle() === projectTitle,
+    );
     this.projects.splice(this.projects.indexOf(projectToDelete), 1);
   }
-
 }
 
 export default ToDoList;

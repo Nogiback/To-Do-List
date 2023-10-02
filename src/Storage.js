@@ -1,27 +1,31 @@
-import Project from './Project';
-import Task from './Task';
-import ToDoList from './ToDoList';
+import Project from "./Project";
+import Task from "./Task";
+import ToDoList from "./ToDoList";
 
 class Storage {
   static saveToDoList(list) {
-    localStorage.setItem('toDoList', JSON.stringify(list));
+    localStorage.setItem("toDoList", JSON.stringify(list));
   }
 
   static getToDoList() {
-    const toDoList = Object.assign(new ToDoList(), JSON.parse(localStorage.getItem('toDoList')));
+    const toDoList = Object.assign(
+      new ToDoList(),
+      JSON.parse(localStorage.getItem("toDoList")),
+    );
 
     toDoList.setProjects(
-      toDoList.getProjects()
-        .map((project) => Object.assign(new Project(), project))
+      toDoList
+        .getProjects()
+        .map((project) => Object.assign(new Project(), project)),
     );
 
     toDoList
       .getProjects()
-      .forEach((project) => 
+      .forEach((project) =>
         project.setTasks(
-          project.getTasks().map((task) => Object.assign(new Task(), task))
-        )
-    );
+          project.getTasks().map((task) => Object.assign(new Task(), task)),
+        ),
+      );
 
     return toDoList;
   }
@@ -58,7 +62,10 @@ class Storage {
 
   static updateTaskDescription(projectTitle, taskTitle, newDescription) {
     const toDoList = Storage.getToDoList();
-    toDoList.getProject(projectTitle).getTask(taskTitle).setDescription(newDescription);
+    toDoList
+      .getProject(projectTitle)
+      .getTask(taskTitle)
+      .setDescription(newDescription);
     Storage.saveToDoList(toDoList);
   }
 
@@ -70,7 +77,10 @@ class Storage {
 
   static updateTaskPriority(projectTitle, taskTitle, newPriority) {
     const toDoList = Storage.getToDoList();
-    toDoList.getProject(projectTitle).getTask(taskTitle).setPriority(newPriority);
+    toDoList
+      .getProject(projectTitle)
+      .getTask(taskTitle)
+      .setPriority(newPriority);
     Storage.saveToDoList(toDoList);
   }
 
