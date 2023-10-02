@@ -1,121 +1,165 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nogi To-Do List</title>
-  <link rel="shortcut icon" href="images/logo.png" />
-  <link rel="stylesheet" href="style.css"/>
-  <script src="https://kit.fontawesome.com/3ef1768f2a.js" crossorigin="anonymous"></script>
-  <script src="main.js" defer></script>
-</head>
-<body>
-  <header class="header">
-    <div class="title">
-      <i class="fa-solid fa-list-check"></i>
-      <h1 class="site-name">Nogi To-Do List</h1>
-    </div>
-    <button id="add-task-btn"><i class="fa-solid fa-circle-plus"></i>Add Task</button>
-  </header>
-
-  <div class="main">
-    <nav class="nav">
-      <div class="default-projects">
-        <button class="default-project-btn" id="inbox-btn"><i class="fa-solid fa-inbox"></i>Inbox</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nogi To-Do List</title>
+    <link rel="shortcut icon" href="images/logo.png" />
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://kit.fontawesome.com/3ef1768f2a.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="main.js" defer></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="title">
+        <i class="fa-solid fa-list-check"></i>
+        <h1 class="site-name">Nogi To-Do List</h1>
       </div>
-      <div class="user-projects" id="user-projects">
-        <h1>Projects</h1>
-        <div class="user-projects-list" id="user-projects-list">
-          <!-- User Projects Listed Here -->
+      <button id="add-task-btn">
+        <i class="fa-solid fa-circle-plus"></i>Add Task
+      </button>
+    </header>
+
+    <div class="main">
+      <nav class="nav">
+        <div class="default-projects">
+          <button class="default-project-btn" id="inbox-btn">
+            <i class="fa-solid fa-inbox"></i>Inbox
+          </button>
         </div>
-        <button id="add-project-btn"><i class="fa-solid fa-circle-plus" style="color: #001c30;"></i>Add Project</button>
+        <div class="user-projects" id="user-projects">
+          <h1>Projects</h1>
+          <div class="user-projects-list" id="user-projects-list">
+            <!-- User Projects Listed Here -->
+          </div>
+          <button id="add-project-btn">
+            <i class="fa-solid fa-circle-plus" style="color: #001c30"></i>Add
+            Project
+          </button>
+        </div>
+      </nav>
+      <!-- Project Dashboard -->
+      <div class="project-dashboard" id="project-dashboard">
+        <!-- Project Tasks Listed Here -->
       </div>
-    </nav>
-    <!-- Project Dashboard -->
-    <div class="project-dashboard" id="project-dashboard">
-          <!-- Project Tasks Listed Here -->
-        </div>
     </div>
-    </div>
-  </div>
 
-  <div class="overlay" id="overlay"></div>
+    <div class="overlay" id="overlay"></div>
 
-  <dialog id="task-modal">
-    <div class="task-modal-header">
-      <h1>Create New Task</h1>
-      <button id="close-task-modal-btn"><i class="fa-solid fa-x"></i></button>
-    </div>
-    <form action="/" method="get" id="task-form">
-      <label for="task-title-input">Task Title:</label>
-      <input type="text" id="task-title-input" name="task-title-input" placeholder="Task Title" maxlength="30" required/>
-      <label for="task-description">Task Description:</label>
-      <textarea id="task-description" name="task-description" rows="6" placeholder="Enter task description here..." maxlength="120"></textarea>
-      <label for="task-date">Task Due Date:</label>
-      <input type="date" id="task-date" name="task-date" required/>
-      <label for="task-priority">Task Priority Level:</label>
-      <select name="task-priority" id="task-priority">
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-      </select>
-      <label for="project-select">Project:</label>
-      <select name="project-select" id="project-select">
-        <!-- Project Options -->
-      </select>
-      <button id="task-submit-btn" value="default">Add Task</button>
-    </form>
-  </dialog>
+    <dialog id="task-modal">
+      <div class="task-modal-header">
+        <h1>Create New Task</h1>
+        <button id="close-task-modal-btn"><i class="fa-solid fa-x"></i></button>
+      </div>
+      <form action="/" method="get" id="task-form">
+        <label for="task-title-input">Task Title:</label>
+        <input
+          type="text"
+          id="task-title-input"
+          name="task-title-input"
+          placeholder="Task Title"
+          maxlength="30"
+          required
+        />
+        <label for="task-description">Task Description:</label>
+        <textarea
+          id="task-description"
+          name="task-description"
+          rows="6"
+          placeholder="Enter task description here..."
+          maxlength="120"
+        ></textarea>
+        <label for="task-date">Task Due Date:</label>
+        <input type="date" id="task-date" name="task-date" required />
+        <label for="task-priority">Task Priority Level:</label>
+        <select name="task-priority" id="task-priority">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+        <label for="project-select">Project:</label>
+        <select name="project-select" id="project-select">
+          <!-- Project Options -->
+        </select>
+        <button id="task-submit-btn" value="default">Add Task</button>
+      </form>
+    </dialog>
 
-  <dialog id="edit-task-modal">
-    <div class="edit-task-modal-header">
-      <h1>Edit Task</h1>
-      <button id="close-edit-task-modal-btn"><i class="fa-solid fa-x"></i></button>
-    </div>
-    <form action="/" method="get" id="edit-task-form">
-      <label for="new-task-title-input">Task Title:</label>
-      <input type="text" id="new-task-title-input" name="new-task-title-input" maxlength="30" required/>
-      <label for="new-task-description">Task Description:</label>
-      <textarea id="new-task-description" name="new-task-description" rows="6" maxlength="120"></textarea>
-      <label for="new-task-date">Task Due Date:</label>
-      <input type="date" id="new-task-date" name="new-task-date" required/>
-      <label for="new-task-priority">Task Priority Level:</label>
-      <select name="new-task-priority" id="new-task-priority">
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-      </select>
-      <button id="edit-task-cancel-btn">Cancel</button>
-      <button id="edit-task-submit-btn" value="default">Save Task</button>
-    </form>
-  </dialog>
+    <dialog id="edit-task-modal">
+      <div class="edit-task-modal-header">
+        <h1>Edit Task</h1>
+        <button id="close-edit-task-modal-btn">
+          <i class="fa-solid fa-x"></i>
+        </button>
+      </div>
+      <form action="/" method="get" id="edit-task-form">
+        <label for="new-task-title-input">Task Title:</label>
+        <input
+          type="text"
+          id="new-task-title-input"
+          name="new-task-title-input"
+          maxlength="30"
+          required
+        />
+        <label for="new-task-description">Task Description:</label>
+        <textarea
+          id="new-task-description"
+          name="new-task-description"
+          rows="6"
+          maxlength="120"
+        ></textarea>
+        <label for="new-task-date">Task Due Date:</label>
+        <input type="date" id="new-task-date" name="new-task-date" required />
+        <label for="new-task-priority">Task Priority Level:</label>
+        <select name="new-task-priority" id="new-task-priority">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+        <button id="edit-task-cancel-btn">Cancel</button>
+        <button id="edit-task-submit-btn" value="default">Save Task</button>
+      </form>
+    </dialog>
 
-  <dialog id="project-modal">
-    <div class="project-modal-header">
-      <h1>Create New Project</h1>
-      <button id="close-project-modal-btn"><i class="fa-solid fa-x"></i></button>
-    </div>
-    <form action="/" method="get" id="project-form">
-      <input type="text" id="project-title-input" name="project-title-input" placeholder="Project Title" maxlength="30" required/>
-      <button id="project-submit-btn" value="default">Add Project</button>
-    </form>
-  </dialog>
+    <dialog id="project-modal">
+      <div class="project-modal-header">
+        <h1>Create New Project</h1>
+        <button id="close-project-modal-btn">
+          <i class="fa-solid fa-x"></i>
+        </button>
+      </div>
+      <form action="/" method="get" id="project-form">
+        <input
+          type="text"
+          id="project-title-input"
+          name="project-title-input"
+          placeholder="Project Title"
+          maxlength="30"
+          required
+        />
+        <button id="project-submit-btn" value="default">Add Project</button>
+      </form>
+    </dialog>
 
-  <dialog id="task-info-modal">
-    <div class="task-info-modal-header">
-      <h1 id="task-info-title"></h1>
-      <button id="close-task-info-btn"><i class="fa-solid fa-x"></i></button>
-    </div>
-    <div id="task-info-description"></div>
-    <div id="task-info-priority"></div>
-    <div id="task-info-due-date"></div>
-    <div id="task-info-project"></div>
-  </dialog>
+    <dialog id="task-info-modal">
+      <div class="task-info-modal-header">
+        <h1 id="task-info-title"></h1>
+        <button id="close-task-info-btn"><i class="fa-solid fa-x"></i></button>
+      </div>
+      <div id="task-info-description"></div>
+      <div id="task-info-priority"></div>
+      <div id="task-info-due-date"></div>
+      <div id="task-info-project"></div>
+    </dialog>
 
-  <footer class="footer">
-    <p>Built by Nogiback</p>
-    <a href="https://github.com/Nogiback" target="_blank">
-      <i class="fab fa-github fa-spin fa-lg"></i></a>
-  </footer>
-</body>
+    <footer class="footer">
+      <p>Built by Nogiback</p>
+      <a href="https://github.com/Nogiback" target="_blank">
+        <i class="fab fa-github fa-spin fa-lg"></i
+      ></a>
+    </footer>
+  </body>
 </html>
